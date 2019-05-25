@@ -21,7 +21,7 @@ public class ShipInventory : Inventory
         PlayerInventory inventory = other.GetComponent<PlayerInventory>();
         if (inventory != null)
         {
-            inventory.TransferItems(this);
+            inventory.TransferAllItems(this);
         }
     }
 }

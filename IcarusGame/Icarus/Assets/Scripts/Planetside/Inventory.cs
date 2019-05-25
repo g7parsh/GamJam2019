@@ -11,7 +11,7 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     private int HealthQuantity = 0;
 
-    public void TransferItems(Inventory other)
+    public void TransferAllItems(Inventory other)
     {
         other.FuelQuantity = FuelQuantity;
         other.RepairsQuantity = RepairsQuantity;
