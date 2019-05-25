@@ -348,10 +348,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8898576139850299116, guid: 44f950303becf5343801fced7fe5c19b,
+    - target: {fileID: 1825607718482854853, guid: 44f950303becf5343801fced7fe5c19b,
         type: 3}
-      propertyPath: PlayerControllerToSpawn
-      value: 
-      objectReference: {fileID: 100006, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44f950303becf5343801fced7fe5c19b, type: 3}

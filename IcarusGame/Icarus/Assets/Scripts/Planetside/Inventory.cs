@@ -1,0 +1,20 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Inventory : MonoBehaviour
+{
+    [SerializeField]
+    private int FuelQuantity = 0;
+    [SerializeField]
+    private int RepairsQuantity = 0;
+    [SerializeField]
+    private int HealthQuantity = 0;
+
+    public void TransferItems(Inventory other)
+    {
+        other.FuelQuantity = FuelQuantity;
+        other.RepairsQuantity = RepairsQuantity;
+        other.HealthQuantity = HealthQuantity;
+    }
+}
