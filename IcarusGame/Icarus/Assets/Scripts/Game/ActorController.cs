@@ -6,7 +6,7 @@ using UnityEngine.Events;
 struct InputAxisMapping
 {
     string axisName;
-    UnityEvent 
+    UnityEvent inputEvent;
 }
 
 
