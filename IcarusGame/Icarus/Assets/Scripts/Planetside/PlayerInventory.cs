@@ -20,5 +20,7 @@ public class PlayerInventory : Inventory
             MiningResource temp = resources.Find(x => { return x == resource; });
             temp.Quantity += amount;
         }
+
+        print(resources);
     }
 }
