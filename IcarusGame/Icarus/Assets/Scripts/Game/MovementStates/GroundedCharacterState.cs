@@ -7,11 +7,9 @@ public class GroundedCharacterState : BaseCharacterState
 {
     public float maxSpeed = 5.0f;
 
-    public override EStateContext CalculateMovement(ref Vector3 input, float deltaTime)
+    public override EStateContext CalculateMovement(ref Vector3 velocity, float deltaTime)
     {
-        float deltaPos = maxSpeed;
-
-        input *= deltaPos;
+        velocity *= maxSpeed;
 
         return EStateContext.Running;
     }

@@ -45,9 +45,8 @@ public abstract class BaseCharacterState : ScriptableObject
     public virtual void ResetState()
     { }
 
-    public virtual EStateContext CalculateMovement(ref Vector3 input, float deltaTime)
+    public virtual EStateContext CalculateMovement(ref Vector3 velocity, float deltaTime)
     {
         return EStateContext.Complete;
-        //return new StateResult(input, EStateContext.Complete);
     }
 }
