@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct StateWorldContext
+{
+    public bool bIsInAir;
+}
+
 //[CreateAssetMenu(fileName ="Character Movement Config", menuName = "Icarus/Character Movement Config")]
 public abstract class BaseCharacterState : ScriptableObject
 {
@@ -44,6 +49,11 @@ public abstract class BaseCharacterState : ScriptableObject
 
     public virtual void ResetState()
     { }
+
+    public virtual bool StateIsValid(StateWorldContext worldContext)
+    {
+        return true;
+    }
 
     public virtual EStateContext CalculateMovement(ref Vector3 velocity, float deltaTime)
     {

@@ -107,6 +107,8 @@ public class GroundMovementMotor : MonoBehaviour
     void Update()
     {
         direc.Update();
+
+        UpdateStateTransitions();
     }
 
     private void FixedUpdate()
@@ -129,6 +131,12 @@ public class GroundMovementMotor : MonoBehaviour
 
     public void SetInputJumpBegin(float test)
     {
+        if (activeStates.Contains(fallState.GetInstanceID())
+            || activeStates.Contains(jumpState.GetInstanceID()))
+        {
+            return;
+        }
+
         activeStates.Remove(fallState.GetInstanceID());
         activeStates.Add(jumpState.GetInstanceID());
 
@@ -146,6 +154,64 @@ public class GroundMovementMotor : MonoBehaviour
         //return Physics.SphereCast(physCollider.bounds.center, physCollider.bounds.extents, physCollider.bounds.)
 
         return Physics.Raycast(transform.position + Vector3.up, Vector3.down, 1.05f);
+    }
+
+    private void UpdateStateTransitions()
+    {
+        System.Func<BaseCharacterState, StateWorldContext, bool> EvaluateStateValidity = (state, context) =>
+        {
+            if (activeStates.Contains(state.GetInstanceID()))
+            {
+                if (!state.StateIsValid(context))
+                {
+                    activeStates.Remove(state.GetInstanceID());
+
+                    return false;
+                }
+                return true;
+            }
+            return false;
+        };
+
+
+        StateWorldContext currentContext;
+
+        RaycastHit floorHitInfo;
+        currentContext.bIsInAir = !CheckIsGrounded(out floorHitInfo);
+
+        Vector3 movementDelta = gameObject.transform.rotation * direc;
+
+
+        EvaluateStateValidity(groundedState, currentContext);
+        /*if (EvaluateStateValidity(jumpState, currentContext))
+        {
+        }
+        else
+        {
+            EvaluateStateValidity(fallState, currentContext);
+        }
+        */
+        // figure out if we should be jumping or not
+        /*if (bIsInAir)
+        {
+            //not jumping
+            if (!activeStates.Contains(jumpState.GetInstanceID()))
+            {
+                activeStates.Add(fallState.GetInstanceID());
+            }
+
+            //rigBod.useGravity = false;
+        }
+        else
+        {
+            activeStates.Remove(fallState.GetInstanceID());
+
+            //rigBod.useGravity = true;
+
+            Quaternion floorSlopeDeltaRot = Quaternion.FromToRotation(Vector3.up, floorHitInfo.normal);
+
+            movementDelta = floorSlopeDeltaRot * movementDelta;
+        }*/
     }
 
     private void UpdateMovement_Fixed()
@@ -177,7 +243,7 @@ public class GroundMovementMotor : MonoBehaviour
 
         Vector3 movementDelta = gameObject.transform.rotation * direc;
 
-
+        /*
         // figure out if we should be jumping or not
         if (bIsInAir)
         {
@@ -199,7 +265,7 @@ public class GroundMovementMotor : MonoBehaviour
 
             movementDelta = floorSlopeDeltaRot * movementDelta;
         }
-
+        */
 
         // UPDATE STATES
 
@@ -209,35 +275,18 @@ public class GroundMovementMotor : MonoBehaviour
             if (activeStates.Contains(state.GetInstanceID()))
             {
                 BaseCharacterState.EStateContext stateContext = state.CalculateMovement(ref movementDelta, Time.fixedDeltaTime);
-                if (stateContext == BaseCharacterState.EStateContext.Complete)
+                /*if (stateContext == BaseCharacterState.EStateContext.Complete)
                 {
                     activeStates.Remove(state.GetInstanceID());
-                }
+                }*/
             }
         };
 
         ProcessState(groundedState);
+        //ProcessState(jumpState);
+        //ProcessState(fallState);
 
-        // we already commited to ground movement, adjust for slopes
-        if (!bIsInAir)
-        {
-            //rigBod.useGravity = true;
-
-            /*float distanceFormCollisionBottom = (physCollider.height / 4.0f) - floorHitInfo.distance;
-            if (distanceFormCollisionBottom >= groundAlignmentSlop)
-            {
-                Vector3 adjustedPos = rigBod.position;
-                adjustedPos.y -= distanceFormCollisionBottom;
-                rigBod.MovePosition(adjustedPos);
-
-                bIsInAir = false;
-            }*/
-        }
-
-        ProcessState(jumpState);
-        ProcessState(fallState);
-
-
+        movementDelta.y = rigBod.velocity.y;
         
 
         rigBod.velocity = movementDelta;
