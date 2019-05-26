@@ -40,20 +40,18 @@ public struct LerpVector3
 
     public void SetDesired(float axisVal, EDirecAxis axis)
     {
-        Debug.Log("" + axisVal);
-
         switch (axis)
         {
             case LerpVector3.EDirecAxis.Right:
-                desiredDirec.x = (Mathf.Clamp01(axisVal) * Mathf.Sign(axisVal));
+                desiredDirec.x = Mathf.Clamp(axisVal, -1.0f, 1.0f);
                 break;
 
             case LerpVector3.EDirecAxis.Up:
-                desiredDirec.y = (Mathf.Clamp01(axisVal) * Mathf.Sign(axisVal));
+                desiredDirec.y = Mathf.Clamp(axisVal, -1.0f, 1.0f);
                 break;
 
             case LerpVector3.EDirecAxis.Forward:
-                desiredDirec.z = (Mathf.Clamp01(axisVal) * Mathf.Sign(axisVal));
+                desiredDirec.z = Mathf.Clamp(axisVal, -1.0f, 1.0f);
                 break;
 
             default:
@@ -64,6 +62,7 @@ public struct LerpVector3
 
 public void Update()
     {
+
         realDirec = Vector3.MoveTowards(realDirec, desiredDirec, redirectSpeed);
     }
 }
@@ -94,10 +93,11 @@ public class GroundMovementMotor : MonoBehaviour
     void Update()
     {
         direc.Update();
+    }
 
-        Debug.Log(direc * maxSpeed);
-
-        rigBod.AddForce(direc * maxSpeed, ForceMode.Impulse);
+    private void FixedUpdate()
+    {
+        UpdateMovement_Fixed();
     }
 
     public void SetDesiredInput(Vector3 inputDir)
@@ -113,5 +113,10 @@ public class GroundMovementMotor : MonoBehaviour
     public void SetDesiredInputForward(float axisVal) { SetDesiredInput(axisVal, LerpVector3.EDirecAxis.Forward); }
     public void SetDesiredInputRight(float axisVal) { SetDesiredInput(axisVal, LerpVector3.EDirecAxis.Right); }
 
+    private void UpdateMovement_Fixed()
+    {
+        Vector3 thisFramePositionTarget = gameObject.transform.position + ((direc * maxSpeed) * Time.fixedDeltaTime);
 
+        rigBod.MovePosition(thisFramePositionTarget);
+    }
 }

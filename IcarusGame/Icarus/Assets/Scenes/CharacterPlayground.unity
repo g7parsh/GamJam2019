@@ -605,6 +605,16 @@ PrefabInstance:
       propertyPath: m_inputManager.inputMappings.Array.data[1].inputEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 6884835308226746320, guid: b1158087ead52fb429a381e9337a89f2,
+        type: 3}
+      propertyPath: m_inputManager.inputMappings.Array.data[1].inputEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6884835308226746320, guid: b1158087ead52fb429a381e9337a89f2,
+        type: 3}
+      propertyPath: m_inputManager.inputMappings.Array.data[1].inputEvent.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6884835308226746333, guid: b1158087ead52fb429a381e9337a89f2,
         type: 3}
       propertyPath: maxSpeed
@@ -613,7 +623,7 @@ PrefabInstance:
     - target: {fileID: 6884835308226746322, guid: b1158087ead52fb429a381e9337a89f2,
         type: 3}
       propertyPath: m_IsKinematic
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6884835308226746322, guid: b1158087ead52fb429a381e9337a89f2,
         type: 3}

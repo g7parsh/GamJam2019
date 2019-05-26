@@ -10,3 +10,6 @@ public class DisplayNameAttribute : PropertyAttribute
     }
 }
 public class ReadOnlyAttribute : PropertyAttribute { }
+
+public class ReorderableListAttribute : PropertyAttribute { }
+
