@@ -7,6 +7,7 @@ public class JumpCharacterState : BaseCharacterState
 {
     public AnimationCurve jumpArc;
     public float jumpHeightScale = 20.0f;
+    public float jumpTime = 0.5f;
 
     /*private float maxHeightTime = 0.0f;
     private const float scanningTimeStep = 0.05f;
@@ -26,12 +27,24 @@ public class JumpCharacterState : BaseCharacterState
         }
     }*/
 
+    public override bool StateIsValid(StateWorldContext worldContext)
+    {
+        /*if (!worldContext.bIsInAir)
+        {
+            return false;
+        }*/
+
+        float timeInState = GetTimeInState_Seconds();
+
+        return timeInState >= jumpArc.keys[jumpArc.length - 1].time;
+    }
+
     public override EStateContext CalculateMovement(ref Vector3 velocity, float deltaTime)
     {
         float timeInState = GetTimeInState_Seconds();
 
-        float oldPos = jumpArc.Evaluate(Mathf.Max(timeInState - deltaTime, 0.0f));
-        float newPos = jumpArc.Evaluate(Mathf.Max(timeInState, 0.0f));
+        float oldPos = jumpArc.Evaluate(Mathf.Max((timeInState - deltaTime) / jumpTime, 0.0f));
+        float newPos = jumpArc.Evaluate(Mathf.Max(timeInState / jumpTime, 0.0f));
 
         // divide by deltaTime to convert to an acceleartion.
             // This lets us drive the position by writing to the RigidBody's velocity

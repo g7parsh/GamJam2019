@@ -8,6 +8,11 @@ public class FallingCharacterState : BaseCharacterState
     public float fallSpeed = 9.8f;
     public float terminalVelocity = 5.0f;
 
+    public override bool StateIsValid(StateWorldContext worldContext)
+    {
+        return worldContext.bIsInAir;
+    }
+
     public override EStateContext CalculateMovement(ref Vector3 velocity, float deltaTime)
     {
         velocity.y = -1.0f * terminalVelocity;

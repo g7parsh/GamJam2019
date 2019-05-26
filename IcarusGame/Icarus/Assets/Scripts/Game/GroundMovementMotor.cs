@@ -107,6 +107,8 @@ public class GroundMovementMotor : MonoBehaviour
     void Update()
     {
         direc.Update();
+
+        UpdateStateTransitions();
     }
 
     private void FixedUpdate()
@@ -129,6 +131,12 @@ public class GroundMovementMotor : MonoBehaviour
 
     public void SetInputJumpBegin(float test)
     {
+        if (activeStates.Contains(fallState.GetInstanceID())
+            || activeStates.Contains(jumpState.GetInstanceID()))
+        {
+            return;
+        }
+
         activeStates.Remove(fallState.GetInstanceID());
         activeStates.Add(jumpState.GetInstanceID());
 
@@ -148,6 +156,64 @@ public class GroundMovementMotor : MonoBehaviour
         return Physics.Raycast(transform.position + Vector3.up, Vector3.down, 1.05f);
     }
 
+    private void UpdateStateTransitions()
+    {
+        System.Func<BaseCharacterState, StateWorldContext, bool> EvaluateStateValidity = (state, context) =>
+        {
+            if (activeStates.Contains(state.GetInstanceID()))
+            {
+                if (!state.StateIsValid(context))
+                {
+                    activeStates.Remove(state.GetInstanceID());
+
+                    return false;
+                }
+                return true;
+            }
+            return false;
+        };
+
+
+        StateWorldContext currentContext;
+
+        RaycastHit floorHitInfo;
+        currentContext.bIsInAir = !CheckIsGrounded(out floorHitInfo);
+
+        Vector3 movementDelta = gameObject.transform.rotation * direc;
+
+
+        EvaluateStateValidity(groundedState, currentContext);
+        /*if (EvaluateStateValidity(jumpState, currentContext))
+        {
+        }
+        else
+        {
+            EvaluateStateValidity(fallState, currentContext);
+        }
+        */
+        // figure out if we should be jumping or not
+        /*if (bIsInAir)
+        {
+            //not jumping
+            if (!activeStates.Contains(jumpState.GetInstanceID()))
+            {
+                activeStates.Add(fallState.GetInstanceID());
+            }
+
+            //rigBod.useGravity = false;
+        }
+        else
+        {
+            activeStates.Remove(fallState.GetInstanceID());
+
+            //rigBod.useGravity = true;
+
+            Quaternion floorSlopeDeltaRot = Quaternion.FromToRotation(Vector3.up, floorHitInfo.normal);
+
+            movementDelta = floorSlopeDeltaRot * movementDelta;
+        }*/
+    }
+
     private void UpdateMovement_Fixed()
     {
         // HANDLE STATE TRANSITIONS
@@ -155,8 +221,8 @@ public class GroundMovementMotor : MonoBehaviour
         RaycastHit floorHitInfo;
         bool bIsInAir = !CheckIsGrounded(out floorHitInfo);
 
-        
-        
+
+
         // TODO: this ain't gonna work, we need propery slope detection and slope following
         // probably want to do here, make generic so we don't rely on specific states to implement their own logic
 
@@ -173,6 +239,12 @@ public class GroundMovementMotor : MonoBehaviour
             bIsInAir = false;
         }*/
 
+
+
+        Vector3 movementDelta = gameObject.transform.rotation * direc;
+
+        /*
+        // figure out if we should be jumping or not
         if (bIsInAir)
         {
             //not jumping
@@ -180,32 +252,42 @@ public class GroundMovementMotor : MonoBehaviour
             {
                 activeStates.Add(fallState.GetInstanceID());
             }
+
+            //rigBod.useGravity = false;
         }
         else
         {
             activeStates.Remove(fallState.GetInstanceID());
-        }
 
+            //rigBod.useGravity = true;
+
+            Quaternion floorSlopeDeltaRot = Quaternion.FromToRotation(Vector3.up, floorHitInfo.normal);
+
+            movementDelta = floorSlopeDeltaRot * movementDelta;
+        }
+        */
 
         // UPDATE STATES
 
-        Vector3 movementDelta = gameObject.transform.rotation * direc;
 
         System.Action<BaseCharacterState> ProcessState = state =>
         {
             if (activeStates.Contains(state.GetInstanceID()))
             {
                 BaseCharacterState.EStateContext stateContext = state.CalculateMovement(ref movementDelta, Time.fixedDeltaTime);
-                if (stateContext == BaseCharacterState.EStateContext.Complete)
+                /*if (stateContext == BaseCharacterState.EStateContext.Complete)
                 {
                     activeStates.Remove(state.GetInstanceID());
-                }
+                }*/
             }
         };
 
         ProcessState(groundedState);
-        ProcessState(jumpState);
-        ProcessState(fallState);
+        //ProcessState(jumpState);
+        //ProcessState(fallState);
+
+        movementDelta.y = rigBod.velocity.y;
+        
 
         rigBod.velocity = movementDelta;
     }
