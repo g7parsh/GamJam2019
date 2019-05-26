@@ -76,6 +76,9 @@ public class GroundMovementMotor : MonoBehaviour
 
     public LerpVector3 direc;
 
+    public BaseCharacterMovementState jumpState;
+    bool bIsRunningJumpState = false;
+
     public float maxSpeed = 20;
     public float gravityVelocity = 1.0f;
 
@@ -116,7 +119,9 @@ public class GroundMovementMotor : MonoBehaviour
 
     public void SetInputJumpBegin(float test)
     {
-        Debug.Log("JUMP BEGIN");
+        //Debug.Log("JUMP BEGIN");
+        bIsRunningJumpState = true;
+        jumpState.StartState();
     }
 
     public void SetInputJumpEnd(float test)
@@ -127,7 +132,20 @@ public class GroundMovementMotor : MonoBehaviour
     private void UpdateMovement_Fixed()
     {
         Vector3 movementDelta = gameObject.transform.rotation * (direc * maxSpeed);
-        movementDelta.y = -1.0f * gravityVelocity;
+
+        if (bIsRunningJumpState)
+        {
+            BaseCharacterMovementState.EStateContext stateContext = jumpState.CalculateMovement(ref movementDelta);
+            
+            if (stateContext == BaseCharacterMovementState.EStateContext.Complete)
+            {
+                bIsRunningJumpState = false;
+            }
+        }
+        else
+        {
+            movementDelta.y = -1.0f * gravityVelocity;
+        }
 
         rigBod.velocity = movementDelta;
     }

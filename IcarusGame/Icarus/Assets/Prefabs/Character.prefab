@@ -509,6 +509,7 @@ MonoBehaviour:
     desiredDirec: {x: 0, y: 0, z: 0}
     realDirec: {x: 0, y: 0, z: 0}
     redirectSpeed: 0.05
+  jumpState: {fileID: 11400000, guid: 21fe5f5fd3ea3cc42b8c74163a1b4861, type: 2}
   maxSpeed: 5
   gravityVelocity: 1
 --- !u!114 &2943953044914735233
