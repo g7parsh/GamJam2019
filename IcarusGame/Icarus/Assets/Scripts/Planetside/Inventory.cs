@@ -24,12 +24,17 @@ public class Inventory : MonoBehaviour
         {
             case RESOURCE.FUEL:
                 FuelQuantity += amount;
+                if (FuelQuantity <= 0) FuelQuantity = 0;
                 break;
             case RESOURCE.REPAIR:
                 RepairsQuantity += amount;
+
+                if (RepairsQuantity <= 0) RepairsQuantity = 0;
                 break;
             case RESOURCE.HEALTH:
                 HealthQuantity += amount;
+
+                if (HealthQuantity <= 0) HealthQuantity = 0;
                 break;
             default:
                 break;
