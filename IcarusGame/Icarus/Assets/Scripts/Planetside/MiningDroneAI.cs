@@ -5,13 +5,6 @@ using UnityEngine.AI;
 
 public class MiningDroneAI : MonoBehaviour
 {
-    [System.Serializable]
-    public struct AIParameters
-    {
-        public float MovementSpeed;
-        public float ApproachRadius;       // how close they can get to a target object
-    }
-
     public enum DroneState
     {
         STOPPED,
@@ -28,10 +21,11 @@ public class MiningDroneAI : MonoBehaviour
     private GameObject Body = null;
     private MiningResource CurrentTarget = null;
     private NavMeshAgent NavAgent = null;
+    private SphereCollider MiningTrigger = null;
     private int CurrentTargetIndex = 0;
-
     [SerializeField]
-    private AIParameters Params;
+    private float MaxDistance = 1000.0f;
+
     private void Awake()
     {
         if (Resources == null)
@@ -39,6 +33,7 @@ public class MiningDroneAI : MonoBehaviour
             Resources = FindObjectsOfType<MiningResource>();
         }
         NavAgent = GetComponentInChildren<NavMeshAgent>();
+        MiningTrigger = GetComponent<SphereCollider>();
     }
 
     // Start is called before the first frame update
@@ -56,7 +51,6 @@ public class MiningDroneAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DirectTowardResource();
         if (State != DroneState.MINING)
         {
             if (CurrentTarget == null)
@@ -68,24 +62,61 @@ public class MiningDroneAI : MonoBehaviour
                 State = DroneState.MOVING;
             }
         }
-        Vector3 agentTranslation = NavAgent.transform.position;
-        agentTranslation.y = Mathf.Max(Body.transform.position.y, NavAgent.transform.position.y);
-        Body.transform.position = agentTranslation;
+        Vector3 bodyTranslation = NavAgent.transform.position;
+        bodyTranslation.y = Body.transform.position.y;
+        if (CurrentTarget != null)
+        {
+            Vector3 dirToDestination = CurrentTarget.transform.position - Body.transform.position;
+            RaycastHit hit;
+            if (Physics.Raycast(Body.transform.position, dirToDestination, out hit, MaxDistance))
+            {
+                if (hit.collider.gameObject.GetComponent<MiningResource>() != null)
+                {
+                    Body.transform.LookAt(CurrentTarget.transform.position);
+                }
+                else
+                {
+                    if (NavAgent.velocity.sqrMagnitude > 0)
+                    {
+                        Body.transform.rotation = Quaternion.LookRotation(NavAgent.velocity, Vector3.up);
+                    }
+                }
+            }
+        }
+        bodyTranslation.y += Body.transform.forward.y * NavAgent.speed * Time.deltaTime;
+        bodyTranslation.y = Mathf.Max(bodyTranslation.y, NavAgent.transform.position.y + NavAgent.height);
+        Body.transform.position = bodyTranslation;
+        MiningTrigger.center = Body.transform.localPosition;
+
+        DebugDraw();
     }
 
-    void DirectTowardResource()
+    private void OnTriggerEnter(Collider other)
+    {
+        MiningResource resource = other.GetComponent<MiningResource>();
+        if (resource != null)
+        {
+            NavAgent.isStopped = true;
+            StartMining(resource);
+        }
+    }
+
+    void DebugDraw()
     {
         if (CurrentTarget != null)
         {
             Debug.DrawLine(transform.position, CurrentTarget.transform.position);
-            if (Vector3.Distance(transform.position, CurrentTarget.transform.position) <= Params.ApproachRadius)
-            {
-                StartCoroutine("Mine");
-            }
+            Debug.DrawRay(Body.transform.position, Body.transform.forward, Color.red);
         }
+        //print(State);
     }
 
-    private IEnumerator Mine()
+    void StartMining(MiningResource resource)
+    {
+        StartCoroutine("Mine", resource);
+    }
+
+    private IEnumerator Mine(MiningResource resource)
     {
         State = DroneState.MINING;
         CurrentTarget = null;
@@ -94,5 +125,6 @@ public class MiningDroneAI : MonoBehaviour
         CurrentTargetIndex = ++CurrentTargetIndex % Resources.Length;
         CurrentTarget = Resources[CurrentTargetIndex];
         NavAgent.SetDestination(CurrentTarget.transform.position);
+        NavAgent.isStopped = false;
     }
 }
