@@ -68,9 +68,12 @@ public void Update()
 }
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(CapsuleCollider))]
 public class GroundMovementMotor : MonoBehaviour
 {
     private Rigidbody rigBod;
+    private CapsuleCollider physCollider;
+    private Ray sphercastRay;
 
     public LerpVector3 direc;
 
@@ -79,7 +82,9 @@ public class GroundMovementMotor : MonoBehaviour
     public BaseCharacterState fallState;
     public BaseCharacterState jumpState;
 
-    HashSet<int> activeStates;
+    private HashSet<int> activeStates;
+
+    public float groundAlignmentSlop = 0.05f;
 
     private void Awake()
     {
@@ -87,6 +92,9 @@ public class GroundMovementMotor : MonoBehaviour
         activeStates.Add(groundedState.GetInstanceID());
 
         rigBod = GetComponent<Rigidbody>();
+        physCollider = GetComponent<CapsuleCollider>();
+        sphercastRay = new Ray(physCollider.bounds.center, Vector3.down);
+
     }
 
     // Start is called before the first frame update
@@ -131,8 +139,12 @@ public class GroundMovementMotor : MonoBehaviour
     {
     }
 
-    private bool CheckIsGrounded()
+    private bool CheckIsGrounded(out RaycastHit hitInfo)
     {
+        sphercastRay.origin = physCollider.bounds.center;
+        return Physics.SphereCast(sphercastRay, physCollider.radius, out hitInfo, physCollider.height / 2.0f);
+        //return Physics.SphereCast(physCollider.bounds.center, physCollider.bounds.extents, physCollider.bounds.)
+
         return Physics.Raycast(transform.position + Vector3.up, Vector3.down, 1.05f);
     }
 
@@ -140,8 +152,28 @@ public class GroundMovementMotor : MonoBehaviour
     {
         // HANDLE STATE TRANSITIONS
 
-        // in the air
-        if (!CheckIsGrounded())
+        RaycastHit floorHitInfo;
+        bool bIsInAir = !CheckIsGrounded(out floorHitInfo);
+
+        
+        
+        // TODO: this ain't gonna work, we need propery slope detection and slope following
+        // probably want to do here, make generic so we don't rely on specific states to implement their own logic
+
+
+
+        // account for slopes causing negligable perturbations in height
+        /*float distanceFormCollisionBottom = (physCollider.height / 4.0f) - floorHitInfo.distance;
+        if (distanceFormCollisionBottom >= groundAlignmentSlop)
+        {
+            Vector3 adjustedPos = rigBod.position;
+            adjustedPos.y -= distanceFormCollisionBottom;
+            rigBod.MovePosition(adjustedPos);
+
+            bIsInAir = false;
+        }*/
+
+        if (bIsInAir)
         {
             //not jumping
             if (!activeStates.Contains(jumpState.GetInstanceID()))
