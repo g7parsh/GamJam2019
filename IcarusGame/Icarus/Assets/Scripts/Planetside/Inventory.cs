@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    public enum RESOURCE
+    {
+        FUEL,
+        REPAIR,
+        HEALTH
+
+    }
     [SerializeField]
     private int FuelQuantity = 0;
     [SerializeField]
@@ -13,8 +20,10 @@ public class Inventory : MonoBehaviour
 
     public void TransferAllItems(Inventory other)
     {
-        other.FuelQuantity = FuelQuantity;
-        other.RepairsQuantity = RepairsQuantity;
-        other.HealthQuantity = HealthQuantity;
+        other.FuelQuantity += FuelQuantity;
+        other.RepairsQuantity += RepairsQuantity;
+        other.HealthQuantity += HealthQuantity;
     }
+
+
 }
