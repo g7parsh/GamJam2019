@@ -12,11 +12,11 @@ public class Inventory : MonoBehaviour
 
     }
     [SerializeField]
-    private int FuelQuantity = 0;
+    protected int FuelQuantity = 0;
     [SerializeField]
-    private int RepairsQuantity = 0;
+    protected int RepairsQuantity = 0;
     [SerializeField]
-    private int HealthQuantity = 0;
+    protected int HealthQuantity = 0;
 
     public void TransferAllItems(Inventory other)
     {
