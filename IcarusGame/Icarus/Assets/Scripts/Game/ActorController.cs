@@ -3,19 +3,45 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [System.Serializable]
-struct InputAxisMapping
+public class UnityEvent_Float : UnityEvent<float> { }
+
+[System.Serializable]
+public struct InputAxisMapping
 {
-    string axisName;
-    UnityEvent inputEvent;
+    /*[System.NonSerialized]
+    public bool bDirty;*/
+
+    public string axisName;
+    public UnityEvent_Float inputEvent;
+}
+
+[System.Serializable]
+public struct InputManager
+{
+    public List<InputAxisMapping> inputMappings;
+
+    public void Update()
+    {
+        foreach (InputAxisMapping axisMapping in inputMappings)
+        {
+            axisMapping.inputEvent.Invoke(Input.GetAxisRaw(axisMapping.axisName));
+
+            /*if (axisMapping.bDirty)
+            {
+                axisMapping.inputEvent.Invoke();
+            }*/
+        }
+    }
 }
 
 
 [RequireComponent(typeof(GroundMovementMotor))]
 public class ActorController : MonoBehaviour
 {
-    List<InputAxisMapping> inputMappings;
-
     private GroundMovementMotor m_movementMotor;
+
+    //[DisplayName("Input Manager")]
+    public InputManager m_inputManager;
 
     private void Awake()
     {
@@ -31,6 +57,8 @@ public class ActorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        m_inputManager.Update();
+
+        //m_movementMotor.
     }
 }
