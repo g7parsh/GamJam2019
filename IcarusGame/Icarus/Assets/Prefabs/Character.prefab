@@ -221,6 +221,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3688675361582633810}
   - component: {fileID: 8765611578472402872}
+  - component: {fileID: 8666631395757454388}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -253,6 +254,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d13fa2a59ea550f4d9a7de32521d9e67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Debris: {fileID: 4673104816867198323, guid: 6b3847aa36cc71240b644bbc7d2fed8d, type: 3}
+  DebrisLifetime: 1
+--- !u!114 &8666631395757454388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4257005731456446833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 226f7ffd8e97007489a0f0cd39b389bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6884835307967101739
