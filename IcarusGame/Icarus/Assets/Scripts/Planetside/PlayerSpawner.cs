@@ -13,7 +13,7 @@ public class PlayerSpawner : MonoBehaviour
     void Start()
     {
         TriggerVolume = GetComponentInChildren<SphereCollider>();
-        Instantiate<GameObject>(PlayerControllerToSpawn, transform);
+        GameObject NewPlayer = Instantiate<GameObject>(PlayerControllerToSpawn, transform.position, transform.rotation);
     }
 
     // Update is called once per frame
