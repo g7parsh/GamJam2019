@@ -8,12 +8,8 @@ public class LookController : MonoBehaviour
 
     public float lookSensitivity = 1.0f;
 
-    //private Plane neckBreakTestPlane;
-
     private void Awake()
     {
-        //neckBreakTestPlane = new Plane(Vector3.forward, cameraGameObject.transform.position);
-
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -32,23 +28,20 @@ public class LookController : MonoBehaviour
 
     public void AddCamLookVertical(float delta)
     {
-        Quaternion currentRot = gameObject.transform.rotation;
+        Quaternion currentRot = cameraGameObject.transform.localRotation;
 
-        Quaternion lookDelta = Quaternion.AngleAxis(delta * lookSensitivity, Vector3.right);
-        Quaternion newRot = Quaternion.RotateTowards(gameObject.transform.rotation, gameObject.transform.rotation * lookDelta, 360.0f);
+        Quaternion deltaRot = Quaternion.AngleAxis(-1.0f * delta * lookSensitivity, Vector3.right);
 
-        Plane plane = new Plane(currentRot * Vector3.forward, Vector3.zero);
-        Vector3 testVec = cameraGameObject.transform.rotation * Vector3.forward;
+        Quaternion candidateRot = currentRot * deltaRot;
 
-        if (!plane.GetSide(testVec))
+        if (Quaternion.Dot(candidateRot, Quaternion.LookRotation(Vector3.forward, Vector3.up)) < 0.0f)
         {
-            /*testVec = Vector3.ProjectOnPlane(testVec, plane.normal).normalized;
-            Quaternion.*/
-        }
-        else
-        {
+            Vector3 adjustedVec = Vector3.ProjectOnPlane(candidateRot * Vector3.forward, Vector3.forward).normalized;
 
+            candidateRot = Quaternion.LookRotation(adjustedVec, Vector3.up);
         }
+
+        cameraGameObject.transform.localRotation = candidateRot;
     }
 
 
