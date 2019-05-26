@@ -23,7 +23,7 @@ PrefabInstance:
     - target: {fileID: 3180700083892680499, guid: 0cde614cd354c3946b40eeffec5b4c4b,
         type: 3}
       propertyPath: m_Name
-      value: Large Rock
+      value: Large Resource
       objectReference: {fileID: 0}
     - target: {fileID: 729667158556636099, guid: 0cde614cd354c3946b40eeffec5b4c4b,
         type: 3}
