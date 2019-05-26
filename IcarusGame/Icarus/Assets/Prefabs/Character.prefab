@@ -43,7 +43,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 6120849dd6d5cd049889ae3b6afce3ca, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -386,6 +386,7 @@ MonoBehaviour:
   m_inputManager:
     inputMappings:
     - axisName: Vertical
+      sendChannel: 0
       inputEvent:
         m_PersistentCalls:
           m_Calls:
@@ -403,6 +404,7 @@ MonoBehaviour:
         m_TypeName: UnityEvent_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
     - axisName: Horizontal
+      sendChannel: 0
       inputEvent:
         m_PersistentCalls:
           m_Calls:
@@ -420,6 +422,7 @@ MonoBehaviour:
         m_TypeName: UnityEvent_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
     - axisName: Mouse X
+      sendChannel: 0
       inputEvent:
         m_PersistentCalls:
           m_Calls:
@@ -437,11 +440,48 @@ MonoBehaviour:
         m_TypeName: UnityEvent_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
     - axisName: Mouse Y
+      sendChannel: 0
       inputEvent:
         m_PersistentCalls:
           m_Calls:
           - m_Target: {fileID: 2943953044914735233}
             m_MethodName: AddCamLookVertical
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+        m_TypeName: UnityEvent_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+    - axisName: Jump
+      sendChannel: 1
+      inputEvent:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 6884835308226746333}
+            m_MethodName: SetInputJumpBegin
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+        m_TypeName: UnityEvent_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+    - axisName: Jump
+      sendChannel: 2
+      inputEvent:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 6884835308226746333}
+            m_MethodName: SetInputJumpEnd
             m_Mode: 0
             m_Arguments:
               m_ObjectArgument: {fileID: 0}
@@ -558,7 +598,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6884835307967101738}
-  - {fileID: 1760291421219763941}
   m_Father: {fileID: 6884835308226746323}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
