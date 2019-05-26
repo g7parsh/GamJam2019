@@ -8,10 +8,12 @@ public class Gun : MonoBehaviour
     private ParticleSystem Debris = null;
     [SerializeField]
     private float DebrisLifetime = 1.0f;
+
+    private DecalQueue DecalManager;
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        DecalManager = GetComponentInChildren<DecalQueue>();
     }
 
     // Update is called once per frame
@@ -25,7 +27,11 @@ public class Gun : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
         {
-            SpawnDebris(hit);
+            if (DecalManager != null && hit.collider.gameObject.isStatic)
+            {
+                SpawnDebris(hit);
+                DecalManager.OnShotHit(hit);
+            }
         }
     }
 
