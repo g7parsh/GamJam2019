@@ -76,7 +76,10 @@ public class MiningDroneAI : MonoBehaviour
                 }
                 else
                 {
-                    Body.transform.rotation = Quaternion.LookRotation(NavAgent.velocity, Vector3.up);
+                    if (NavAgent.velocity.sqrMagnitude > 0)
+                    {
+                        Body.transform.rotation = Quaternion.LookRotation(NavAgent.velocity, Vector3.up);
+                    }
                 }
             }
         }
