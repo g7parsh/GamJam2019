@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class PlayerInventory : Inventory
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private List<MiningResource> resources;
 
-    // Update is called once per frame
-    void Update()
+    void AddResource(MiningResource resource, int amount)
     {
-        
+        if (resources.Contains(resource))
+        {
+            MiningResource temp = resources.Find(x => { return x == resource; });
+            temp.Quantity += amount;
+        }
+        else
+        {
+            resources.Add(resource);
+            MiningResource temp = resources.Find(x => { return x == resource; });
+            temp.Quantity += amount;
+        }
     }
 }
