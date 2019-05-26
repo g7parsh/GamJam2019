@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerInventory : Inventory
 {
     [SerializeField]
-    private List<MiningResource> resources;
+    private List<MiningResource> resources = new List<MiningResource>();
 
     void AddResource(MiningResource resource, int amount)
     {
@@ -20,5 +20,7 @@ public class PlayerInventory : Inventory
             MiningResource temp = resources.Find(x => { return x == resource; });
             temp.Quantity += amount;
         }
+
+        print(resources);
     }
 }
