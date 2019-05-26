@@ -114,6 +114,16 @@ public class GroundMovementMotor : MonoBehaviour
     public void SetDesiredInputForward(float axisVal) { SetDesiredInput(axisVal, LerpVector3.EDirecAxis.Forward); }
     public void SetDesiredInputRight(float axisVal) { SetDesiredInput(axisVal, LerpVector3.EDirecAxis.Right); }
 
+    public void SetInputJumpBegin(float test)
+    {
+        Debug.Log("JUMP BEGIN");
+    }
+
+    public void SetInputJumpEnd(float test)
+    {
+        Debug.Log("JUMP END");
+    }
+
     private void UpdateMovement_Fixed()
     {
         Vector3 movementDelta = gameObject.transform.rotation * (direc * maxSpeed);
