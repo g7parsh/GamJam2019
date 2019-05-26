@@ -44,6 +44,7 @@ public struct InputAxisMapping
                     inputEvent.Invoke(Input.GetAxisRaw(axisName));
                 }
                 break;
+
             case ESendChannel.ButtonHeld:
                 if (Input.GetButton(axisName))
                 {

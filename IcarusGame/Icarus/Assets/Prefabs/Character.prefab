@@ -524,8 +524,10 @@ MonoBehaviour:
     desiredDirec: {x: 0, y: 0, z: 0}
     realDirec: {x: 0, y: 0, z: 0}
     redirectSpeed: 0.05
-  maxSpeed: 5
-  gravityVelocity: 1
+  groundedState: {fileID: 11400000, guid: 66de952272ea9d0419c7278d090e33f4, type: 2}
+  fallState: {fileID: 11400000, guid: 263167e0a4e07204f944ea57e79da819, type: 2}
+  jumpState: {fileID: 11400000, guid: 21fe5f5fd3ea3cc42b8c74163a1b4861, type: 2}
+  groundAlignmentSlop: 0.1
 --- !u!114 &2943953044914735233
 MonoBehaviour:
   m_ObjectHideFlags: 0
