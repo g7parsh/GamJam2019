@@ -256,6 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d13fa2a59ea550f4d9a7de32521d9e67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShootingInterval: 0.05
   Debris: {fileID: 4673104816867198323, guid: 6b3847aa36cc71240b644bbc7d2fed8d, type: 3}
   DebrisLifetime: 1
 --- !u!114 &2971486058343530354

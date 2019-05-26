@@ -5,6 +5,9 @@ using UnityEngine;
 public class Gun : MonoBehaviour
 {
     [SerializeField]
+    private float ShootingInterval = 0.1f;
+    private bool CanShoot = true;
+    [SerializeField]
     private ParticleSystem Debris = null;
     [SerializeField]
     private float DebrisLifetime = 1.0f;
@@ -37,10 +40,11 @@ public class Gun : MonoBehaviour
 
     void ProcessInput()
     {
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && CanShoot)
         {
             // shoot the gun
             Shoot();
+            StartCoroutine("Cooldown");
         }
     }
 
@@ -51,5 +55,12 @@ public class Gun : MonoBehaviour
             ParticleSystem newDebris = Instantiate<ParticleSystem>(Debris, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(newDebris.gameObject, DebrisLifetime);
         }
+    }
+
+    private IEnumerator Cooldown()
+    {
+        CanShoot = false;
+        yield return new WaitForSeconds(ShootingInterval);
+        CanShoot = true;
     }
 }
