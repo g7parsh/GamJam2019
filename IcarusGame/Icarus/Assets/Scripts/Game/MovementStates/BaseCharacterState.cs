@@ -7,6 +7,13 @@ public struct StateWorldContext
     public bool bIsInAir;
 }
 
+public struct MovementContext
+{
+    public Rigidbody rigBod;
+    public Vector3 input;
+    public float deltaTime;
+}
+
 //[CreateAssetMenu(fileName ="Character Movement Config", menuName = "Icarus/Character Movement Config")]
 public abstract class BaseCharacterState : ScriptableObject
 {
@@ -55,7 +62,7 @@ public abstract class BaseCharacterState : ScriptableObject
         return true;
     }
 
-    public virtual EStateContext CalculateMovement(ref Vector3 velocity, float deltaTime)
+    public virtual EStateContext CalculateMovement(MovementContext movementContext)
     {
         return EStateContext.Complete;
     }

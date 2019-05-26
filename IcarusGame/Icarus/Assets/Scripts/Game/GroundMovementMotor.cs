@@ -183,6 +183,8 @@ public class GroundMovementMotor : MonoBehaviour
 
 
         EvaluateStateValidity(groundedState, currentContext);
+        EvaluateStateValidity(jumpState, currentContext);
+
         /*if (EvaluateStateValidity(jumpState, currentContext))
         {
         }
@@ -218,9 +220,10 @@ public class GroundMovementMotor : MonoBehaviour
     {
         // HANDLE STATE TRANSITIONS
 
+        /*
         RaycastHit floorHitInfo;
         bool bIsInAir = !CheckIsGrounded(out floorHitInfo);
-
+        */
 
 
         // TODO: this ain't gonna work, we need propery slope detection and slope following
@@ -269,12 +272,18 @@ public class GroundMovementMotor : MonoBehaviour
 
         // UPDATE STATES
 
+        MovementContext newMovementContext;
+        newMovementContext.rigBod = rigBod;
+        newMovementContext.input = gameObject.transform.rotation * direc;
+        newMovementContext.deltaTime = Time.fixedDeltaTime;
+
 
         System.Action<BaseCharacterState> ProcessState = state =>
         {
             if (activeStates.Contains(state.GetInstanceID()))
             {
-                BaseCharacterState.EStateContext stateContext = state.CalculateMovement(ref movementDelta, Time.fixedDeltaTime);
+                BaseCharacterState.EStateContext stateContext = state.CalculateMovement(newMovementContext);
+                //BaseCharacterState.EStateContext stateContext = state.CalculateMovement(ref movementDelta, Time.fixedDeltaTime);
                 /*if (stateContext == BaseCharacterState.EStateContext.Complete)
                 {
                     activeStates.Remove(state.GetInstanceID());
@@ -282,13 +291,13 @@ public class GroundMovementMotor : MonoBehaviour
             }
         };
 
+        ProcessState(jumpState);
         ProcessState(groundedState);
-        //ProcessState(jumpState);
         //ProcessState(fallState);
 
-        movementDelta.y = rigBod.velocity.y;
+        //movementDelta.y = rigBod.velocity.y;
         
 
-        rigBod.velocity = movementDelta;
+        //rigBod.velocity = movementDelta;
     }
 }
