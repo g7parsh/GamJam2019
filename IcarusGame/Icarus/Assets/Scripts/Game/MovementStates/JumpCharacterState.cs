@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CharacterJumpState", menuName = "Icarus/Character States/Jump")]
-public class JumpCharacterMovementState : BaseCharacterMovementState
+public class JumpCharacterState : BaseCharacterState
 {
     public AnimationCurve jumpArc;
 
-    public override EStateContext CalculateMovement(ref Vector3 input)
+    public override EStateContext CalculateMovement(ref Vector3 input, float deltaTime)
     {
         float timeInState = GetTimeInState_Seconds();
 
@@ -19,7 +19,5 @@ public class JumpCharacterMovementState : BaseCharacterMovementState
         EStateContext retContext = timeInState >= jumpArc.keys[jumpArc.length - 1].time ? EStateContext.Complete : EStateContext.Running;
 
         return retContext;
-
-        //return new StateResult(input, retContext);
     }
 }

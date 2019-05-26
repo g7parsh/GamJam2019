@@ -67,8 +67,6 @@ public void Update()
     }
 }
 
-
-
 [RequireComponent(typeof(Rigidbody))]
 public class GroundMovementMotor : MonoBehaviour
 {
@@ -76,14 +74,18 @@ public class GroundMovementMotor : MonoBehaviour
 
     public LerpVector3 direc;
 
-    public BaseCharacterMovementState jumpState;
-    bool bIsRunningJumpState = false;
+    [Header("Character Movement States")]
+    public BaseCharacterState groundedState;
+    public BaseCharacterState fallState;
+    public BaseCharacterState jumpState;
 
-    public float maxSpeed = 20;
-    public float gravityVelocity = 1.0f;
+    HashSet<int> activeStates;
 
     private void Awake()
     {
+        activeStates = new HashSet<int>();
+        activeStates.Add(groundedState.GetInstanceID());
+
         rigBod = GetComponent<Rigidbody>();
     }
 
@@ -119,33 +121,59 @@ public class GroundMovementMotor : MonoBehaviour
 
     public void SetInputJumpBegin(float test)
     {
-        //Debug.Log("JUMP BEGIN");
-        bIsRunningJumpState = true;
+        activeStates.Remove(fallState.GetInstanceID());
+        activeStates.Add(jumpState.GetInstanceID());
+
         jumpState.StartState();
     }
 
     public void SetInputJumpEnd(float test)
     {
-        Debug.Log("JUMP END");
+    }
+
+    private bool CheckIsGrounded()
+    {
+        return Physics.Raycast(transform.position + Vector3.up, Vector3.down, 1.05f);
     }
 
     private void UpdateMovement_Fixed()
     {
-        Vector3 movementDelta = gameObject.transform.rotation * (direc * maxSpeed);
+        // HANDLE STATE TRANSITIONS
 
-        if (bIsRunningJumpState)
+        // in the air
+        if (!CheckIsGrounded())
         {
-            BaseCharacterMovementState.EStateContext stateContext = jumpState.CalculateMovement(ref movementDelta);
-            
-            if (stateContext == BaseCharacterMovementState.EStateContext.Complete)
+            //not jumping
+            if (!activeStates.Contains(jumpState.GetInstanceID()))
             {
-                bIsRunningJumpState = false;
+                activeStates.Add(fallState.GetInstanceID());
             }
         }
         else
         {
-            movementDelta.y = -1.0f * gravityVelocity;
+            activeStates.Remove(fallState.GetInstanceID());
         }
+
+
+        // UPDATE STATES
+
+        Vector3 movementDelta = gameObject.transform.rotation * direc;
+
+        System.Action<BaseCharacterState> ProcessState = state =>
+        {
+            if (activeStates.Contains(state.GetInstanceID()))
+            {
+                BaseCharacterState.EStateContext stateContext = state.CalculateMovement(ref movementDelta, Time.fixedDeltaTime);
+                if (stateContext == BaseCharacterState.EStateContext.Complete)
+                {
+                    activeStates.Remove(state.GetInstanceID());
+                }
+            }
+        };
+
+        ProcessState(groundedState);
+        ProcessState(jumpState);
+        ProcessState(fallState);
 
         rigBod.velocity = movementDelta;
     }

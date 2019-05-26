@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //[CreateAssetMenu(fileName ="Character Movement Config", menuName = "Icarus/Character Movement Config")]
-public abstract class BaseCharacterMovementState : ScriptableObject
+public abstract class BaseCharacterState : ScriptableObject
 {
     public enum EStateContext
     {
@@ -38,10 +38,14 @@ public abstract class BaseCharacterMovementState : ScriptableObject
 
     public void StartState()
     {
+        ResetState();
         startTimeStamp = System.DateTime.Now;
     }
 
-    public virtual EStateContext CalculateMovement(ref Vector3 input)
+    public virtual void ResetState()
+    { }
+
+    public virtual EStateContext CalculateMovement(ref Vector3 input, float deltaTime)
     {
         return EStateContext.Complete;
         //return new StateResult(input, EStateContext.Complete);
