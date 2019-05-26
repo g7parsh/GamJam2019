@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3631529961389750451}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.4, z: 0}
+  m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6884835308226746323}
@@ -171,6 +171,7 @@ GameObject:
   - component: {fileID: 6884835308226746323}
   - component: {fileID: 6884835308226746320}
   - component: {fileID: 6884835308226746333}
+  - component: {fileID: 2943953044914735233}
   - component: {fileID: 6884835308226746322}
   - component: {fileID: 287809465}
   m_Layer: 0
@@ -244,6 +245,40 @@ MonoBehaviour:
             m_CallState: 2
         m_TypeName: UnityEvent_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
+    - axisName: Mouse X
+      inputEvent:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 2943953044914735233}
+            m_MethodName: AddCamLookHorizontal
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+        m_TypeName: UnityEvent_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+    - axisName: Mouse Y
+      inputEvent:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 2943953044914735233}
+            m_MethodName: AddCamLookVertical
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+        m_TypeName: UnityEvent_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
 --- !u!114 &6884835308226746333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,6 +297,19 @@ MonoBehaviour:
     redirectSpeed: 0.05
   maxSpeed: 5
   gravityVelocity: 1
+--- !u!114 &2943953044914735233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6884835308226746321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e38d0af6c4ebd345af5b12edc733070, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraGameObject: {fileID: 0}
 --- !u!54 &6884835308226746322
 Rigidbody:
   m_ObjectHideFlags: 0

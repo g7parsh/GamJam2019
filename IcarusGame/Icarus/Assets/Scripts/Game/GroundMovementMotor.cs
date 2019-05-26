@@ -116,7 +116,7 @@ public class GroundMovementMotor : MonoBehaviour
 
     private void UpdateMovement_Fixed()
     {
-        Vector3 movementDelta = (direc * maxSpeed);
+        Vector3 movementDelta = gameObject.transform.rotation * (direc * maxSpeed);
         movementDelta.y = -1.0f * gravityVelocity;
 
         rigBod.velocity = movementDelta;
