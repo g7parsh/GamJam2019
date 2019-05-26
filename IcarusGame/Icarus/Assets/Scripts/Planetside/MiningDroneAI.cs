@@ -105,7 +105,7 @@ public class MiningDroneAI : MonoBehaviour
             Debug.DrawLine(transform.position, CurrentTarget.transform.position);
             Debug.DrawRay(Body.transform.position, Body.transform.forward, Color.red);
         }
-        print(State);
+        //print(State);
     }
 
     void StartMining(MiningResource resource)
