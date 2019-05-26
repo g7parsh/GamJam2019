@@ -94,7 +94,6 @@ GameObject:
   - component: {fileID: 6884835307967101738}
   - component: {fileID: 6884835307967101751}
   - component: {fileID: 6884835307967101748}
-  - component: {fileID: 6884835307967101749}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -161,20 +160,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &6884835307967101749
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6884835307967101739}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6884835308226746321
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,6 +172,7 @@ GameObject:
   - component: {fileID: 6884835308226746320}
   - component: {fileID: 6884835308226746333}
   - component: {fileID: 6884835308226746322}
+  - component: {fileID: 287809465}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -223,7 +209,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_inputManager:
-    inputMappings: []
+    inputMappings:
+    - axisName: Vertical
+      inputEvent:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 6884835308226746333}
+            m_MethodName: SetDesiredInputForward
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+        m_TypeName: UnityEvent_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+    - axisName: Horizontal
+      inputEvent:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 6884835308226746333}
+            m_MethodName: SetDesiredInputRight
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+        m_TypeName: UnityEvent_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
 --- !u!114 &6884835308226746333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,8 +259,8 @@ MonoBehaviour:
   direc:
     desiredDirec: {x: 0, y: 0, z: 0}
     realDirec: {x: 0, y: 0, z: 0}
-    redirectSpeed: 1
-  maxSpeed: 20
+    redirectSpeed: 0.05
+  maxSpeed: 5
   gravityVelocity: 1
 --- !u!54 &6884835308226746322
 Rigidbody:
@@ -253,11 +273,25 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 2
   m_Constraints: 112
-  m_CollisionDetection: 2
+  m_CollisionDetection: 3
+--- !u!136 &287809465
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6884835308226746321}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &6884835308957957916
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +316,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6884835308957957916}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6884835307967101738}
