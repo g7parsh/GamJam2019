@@ -155,8 +155,8 @@ public class GroundMovementMotor : MonoBehaviour
         RaycastHit floorHitInfo;
         bool bIsInAir = !CheckIsGrounded(out floorHitInfo);
 
-        
-        
+
+
         // TODO: this ain't gonna work, we need propery slope detection and slope following
         // probably want to do here, make generic so we don't rely on specific states to implement their own logic
 
@@ -173,6 +173,12 @@ public class GroundMovementMotor : MonoBehaviour
             bIsInAir = false;
         }*/
 
+
+
+        Vector3 movementDelta = gameObject.transform.rotation * direc;
+
+
+        // figure out if we should be jumping or not
         if (bIsInAir)
         {
             //not jumping
@@ -180,16 +186,23 @@ public class GroundMovementMotor : MonoBehaviour
             {
                 activeStates.Add(fallState.GetInstanceID());
             }
+
+            //rigBod.useGravity = false;
         }
         else
         {
             activeStates.Remove(fallState.GetInstanceID());
+
+            //rigBod.useGravity = true;
+
+            Quaternion floorSlopeDeltaRot = Quaternion.FromToRotation(Vector3.up, floorHitInfo.normal);
+
+            movementDelta = floorSlopeDeltaRot * movementDelta;
         }
 
 
         // UPDATE STATES
 
-        Vector3 movementDelta = gameObject.transform.rotation * direc;
 
         System.Action<BaseCharacterState> ProcessState = state =>
         {
@@ -204,8 +217,28 @@ public class GroundMovementMotor : MonoBehaviour
         };
 
         ProcessState(groundedState);
+
+        // we already commited to ground movement, adjust for slopes
+        if (!bIsInAir)
+        {
+            //rigBod.useGravity = true;
+
+            /*float distanceFormCollisionBottom = (physCollider.height / 4.0f) - floorHitInfo.distance;
+            if (distanceFormCollisionBottom >= groundAlignmentSlop)
+            {
+                Vector3 adjustedPos = rigBod.position;
+                adjustedPos.y -= distanceFormCollisionBottom;
+                rigBod.MovePosition(adjustedPos);
+
+                bIsInAir = false;
+            }*/
+        }
+
         ProcessState(jumpState);
         ProcessState(fallState);
+
+
+        
 
         rigBod.velocity = movementDelta;
     }
