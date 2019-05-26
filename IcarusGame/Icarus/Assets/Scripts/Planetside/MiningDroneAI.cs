@@ -1,20 +1,35 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class MiningDroneAI : MonoBehaviour
 {
-    private static MiningResource[] Resources = null;
-
-    private MiningResource CurrentTarget = null;
-    private int CurrentTargetIndex;
-
     [System.Serializable]
     public struct AIParameters
     {
         public float MovementSpeed;
         public float ApproachRadius;       // how close they can get to a target object
     }
+
+    public enum DroneState
+    {
+        STOPPED,
+        MOVING,
+        MINING
+    };
+
+    private static MiningResource[] Resources = null;
+
+    [SerializeField]
+    private static float TimeToMine = 3.0f;
+    private DroneState State = DroneState.STOPPED;
+    [SerializeField]
+    private GameObject Body = null;
+    private MiningResource CurrentTarget = null;
+    private NavMeshAgent NavAgent = null;
+    private int CurrentTargetIndex = 0;
+
     [SerializeField]
     private AIParameters Params;
     private void Awake()
@@ -23,6 +38,7 @@ public class MiningDroneAI : MonoBehaviour
         {
             Resources = FindObjectsOfType<MiningResource>();
         }
+        NavAgent = GetComponentInChildren<NavMeshAgent>();
     }
 
     // Start is called before the first frame update
@@ -32,23 +48,51 @@ public class MiningDroneAI : MonoBehaviour
         {
             CurrentTargetIndex = 0;
             CurrentTarget = Resources[CurrentTargetIndex];
+            NavAgent.SetDestination(CurrentTarget.transform.position);
+            transform.LookAt(CurrentTarget.transform.position);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(CurrentTarget.transform);
-
-        Vector3 newPosition = transform.position + transform.forward * Time.deltaTime * Params.MovementSpeed;
-
-        if (Vector3.Distance(newPosition, CurrentTarget.transform.position) <= Params.ApproachRadius)
+        DirectTowardResource();
+        if (State != DroneState.MINING)
         {
-            CurrentTargetIndex = ++CurrentTargetIndex % Resources.Length;
-            CurrentTarget = Resources[CurrentTargetIndex];
-            transform.LookAt(CurrentTarget.transform);
-            newPosition = transform.position + transform.forward * Time.deltaTime * Params.MovementSpeed;
+            if (CurrentTarget == null)
+            {
+                State = DroneState.STOPPED;
+            }
+            else
+            {
+                State = DroneState.MOVING;
+            }
         }
-        transform.position = newPosition;
+        Vector3 agentTranslation = NavAgent.transform.position;
+        agentTranslation.y = Mathf.Max(Body.transform.position.y, NavAgent.transform.position.y);
+        Body.transform.position = agentTranslation;
+    }
+
+    void DirectTowardResource()
+    {
+        if (CurrentTarget != null)
+        {
+            Debug.DrawLine(transform.position, CurrentTarget.transform.position);
+            if (Vector3.Distance(transform.position, CurrentTarget.transform.position) <= Params.ApproachRadius)
+            {
+                StartCoroutine("Mine");
+            }
+        }
+    }
+
+    private IEnumerator Mine()
+    {
+        State = DroneState.MINING;
+        CurrentTarget = null;
+        yield return new WaitForSeconds(TimeToMine);
+        State = DroneState.MOVING;
+        CurrentTargetIndex = ++CurrentTargetIndex % Resources.Length;
+        CurrentTarget = Resources[CurrentTargetIndex];
+        NavAgent.SetDestination(CurrentTarget.transform.position);
     }
 }
