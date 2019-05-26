@@ -174,6 +174,7 @@ GameObject:
   - component: {fileID: 2943953044914735233}
   - component: {fileID: 6884835308226746322}
   - component: {fileID: 287809465}
+  - component: {fileID: 5504356187790078671}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -310,6 +311,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraGameObject: {fileID: 0}
+  lookSensitivity: 1
 --- !u!54 &6884835308226746322
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -340,6 +342,22 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &5504356187790078671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6884835308226746321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e40cd84a202ee47479e684fb1ccc605d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FuelQuantity: 0
+  RepairsQuantity: 0
+  HealthQuantity: 0
+  resources: []
 --- !u!1 &6884835308957957916
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,22 +5,21 @@ using UnityEngine;
 public class PlayerInventory : Inventory
 {
     [SerializeField]
-    private List<MiningResource> resources = new List<MiningResource>();
+    public Dictionary<string, int> resources = new Dictionary<string, int>();
 
-    void AddResource(MiningResource resource, int amount)
+    public void AddResource(MiningResource resource, int amount)
     {
-        if (resources.Contains(resource))
+        if (resources.ContainsKey(resource.resourceType.ToString()))
         {
-            MiningResource temp = resources.Find(x => { return x == resource; });
-            temp.Quantity += amount;
+            resources[resource.resourceType.ToString()] += amount;
         }
         else
         {
-            resources.Add(resource);
-            MiningResource temp = resources.Find(x => { return x == resource; });
-            temp.Quantity += amount;
+            resources.Add(resource.resourceType.ToString(), amount);
         }
-
-        print(resources);
+        foreach (var item in resources.Keys)
+        {
+            print(item + ":" + resources[item]);
+        }
     }
 }
