@@ -27,26 +27,33 @@ public struct LerpVector3
         return direc.realDirec;
     }
 
+    public static Vector3 operator* (LerpVector3 lerpVec3, float multiplier)
+    {
+        return lerpVec3.realDirec * multiplier;
+    }
+
     public void SetDesired(Vector3 direc)
     {
-        desiredDirec = direc.normalized;
+        //desiredDirec = direc.normalized;
+        desiredDirec = direc;
     }
 
     public void SetDesired(float axisVal, EDirecAxis axis)
     {
+        Debug.Log("" + axisVal);
+
         switch (axis)
         {
-
             case LerpVector3.EDirecAxis.Right:
-                desiredDirec.x = Mathf.Clamp01(axisVal) * Mathf.Sign(axisVal);
+                desiredDirec.x = (Mathf.Clamp01(axisVal) * Mathf.Sign(axisVal));
                 break;
 
             case LerpVector3.EDirecAxis.Up:
-                desiredDirec.y = Mathf.Clamp01(axisVal) * Mathf.Sign(axisVal);
+                desiredDirec.y = (Mathf.Clamp01(axisVal) * Mathf.Sign(axisVal));
                 break;
 
             case LerpVector3.EDirecAxis.Forward:
-                desiredDirec.z = Mathf.Clamp01(axisVal) * Mathf.Sign(axisVal);
+                desiredDirec.z = (Mathf.Clamp01(axisVal) * Mathf.Sign(axisVal));
                 break;
 
             default:
@@ -57,9 +64,10 @@ public struct LerpVector3
 
 public void Update()
     {
-        Vector3.MoveTowards(realDirec, desiredDirec, redirectSpeed);
+        realDirec = Vector3.MoveTowards(realDirec, desiredDirec, redirectSpeed);
     }
 }
+
 
 
 [RequireComponent(typeof(Rigidbody))]
@@ -68,6 +76,8 @@ public class GroundMovementMotor : MonoBehaviour
     private Rigidbody rigBod;
 
     public LerpVector3 direc;
+
+    public float maxSpeed = 20;
 
     private void Awake()
     {
@@ -85,7 +95,9 @@ public class GroundMovementMotor : MonoBehaviour
     {
         direc.Update();
 
-        rigBod.AddForce(direc);
+        Debug.Log(direc * maxSpeed);
+
+        rigBod.AddForce(direc * maxSpeed, ForceMode.Impulse);
     }
 
     public void SetDesiredInput(Vector3 inputDir)
@@ -100,4 +112,6 @@ public class GroundMovementMotor : MonoBehaviour
 
     public void SetDesiredInputForward(float axisVal) { SetDesiredInput(axisVal, LerpVector3.EDirecAxis.Forward); }
     public void SetDesiredInputRight(float axisVal) { SetDesiredInput(axisVal, LerpVector3.EDirecAxis.Right); }
+
+
 }

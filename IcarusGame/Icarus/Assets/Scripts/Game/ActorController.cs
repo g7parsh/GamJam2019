@@ -25,11 +25,6 @@ public struct InputManager
         foreach (InputAxisMapping axisMapping in inputMappings)
         {
             axisMapping.inputEvent.Invoke(Input.GetAxisRaw(axisMapping.axisName));
-
-            /*if (axisMapping.bDirty)
-            {
-                axisMapping.inputEvent.Invoke();
-            }*/
         }
     }
 }
@@ -58,7 +53,5 @@ public class ActorController : MonoBehaviour
     void Update()
     {
         m_inputManager.Update();
-
-        //m_movementMotor.
     }
 }
