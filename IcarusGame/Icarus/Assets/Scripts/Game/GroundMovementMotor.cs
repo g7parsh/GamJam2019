@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -77,6 +77,7 @@ public class GroundMovementMotor : MonoBehaviour
     public LerpVector3 direc;
 
     public float maxSpeed = 20;
+    public float gravityVelocity = 1.0f;
 
     private void Awake()
     {
@@ -115,8 +116,9 @@ public class GroundMovementMotor : MonoBehaviour
 
     private void UpdateMovement_Fixed()
     {
-        Vector3 thisFramePositionTarget = gameObject.transform.position + ((direc * maxSpeed) * Time.fixedDeltaTime);
+        Vector3 movementDelta = (direc * maxSpeed);
+        movementDelta.y = -1.0f * gravityVelocity;
 
-        rigBod.MovePosition(thisFramePositionTarget);
+        rigBod.velocity = movementDelta;
     }
 }
