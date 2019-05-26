@@ -108,8 +108,8 @@ NavMeshSettings:
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
-    agentSlope: 45
-    agentClimb: 0.4
+    agentSlope: 55
+    agentClimb: 0.45
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
@@ -120,7 +120,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 1286b2371e4657741a67ba42d819cc19, type: 2}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,6 +402,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestPlanet
       objectReference: {fileID: 0}
+    - target: {fileID: 1970249724004122391, guid: 983816b12b9b8de45aa4422b904856b9,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967263
+      objectReference: {fileID: 0}
     - target: {fileID: 1970249724004122394, guid: 983816b12b9b8de45aa4422b904856b9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -553,7 +558,7 @@ PrefabInstance:
     - target: {fileID: 68077174822050054, guid: 6711ab94cf14d214b8b7dd5d19ab1a03,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 247.19116
+      value: 221.4
       objectReference: {fileID: 0}
     - target: {fileID: 68077174822050054, guid: 6711ab94cf14d214b8b7dd5d19ab1a03,
         type: 3}
@@ -563,7 +568,7 @@ PrefabInstance:
     - target: {fileID: 68077174822050054, guid: 6711ab94cf14d214b8b7dd5d19ab1a03,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 135.66957
+      value: 185.8
       objectReference: {fileID: 0}
     - target: {fileID: 68077174822050054, guid: 6711ab94cf14d214b8b7dd5d19ab1a03,
         type: 3}
@@ -604,6 +609,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167428794908698391, guid: 6711ab94cf14d214b8b7dd5d19ab1a03,
+        type: 3}
+      propertyPath: m_Speed
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6711ab94cf14d214b8b7dd5d19ab1a03, type: 3}
