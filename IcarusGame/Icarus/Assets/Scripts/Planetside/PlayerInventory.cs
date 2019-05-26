@@ -9,7 +9,7 @@ public class PlayerInventory : Inventory
 
     }
 
-    public void AddResource(MiningResource resource, int amount)
+    public void AjustResource(MiningResource resource, int amount)
     {
         UpdateResource(resource.resourceType, amount);
 
