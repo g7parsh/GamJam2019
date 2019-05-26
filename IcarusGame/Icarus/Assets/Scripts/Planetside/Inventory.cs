@@ -18,6 +18,23 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     protected int HealthQuantity = 0;
 
+    public void UpdateResource(RESOURCE resource, int amount)
+    {
+        switch (resource)
+        {
+            case RESOURCE.FUEL:
+                FuelQuantity += amount;
+                break;
+            case RESOURCE.REPAIR:
+                RepairsQuantity += amount;
+                break;
+            case RESOURCE.HEALTH:
+                HealthQuantity += amount;
+                break;
+            default:
+                break;
+        }
+    }
     public void TransferAllItems(Inventory other)
     {
         other.FuelQuantity += FuelQuantity;

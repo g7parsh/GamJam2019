@@ -1,18 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!135 &4158872370401493720
-SphereCollider:
+--- !u!64 &66309816
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 395712725795504221}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2.25
-  m_Center: {x: 0, y: 1.14, z: 0}
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_Mesh: {fileID: -7540463245870296666, guid: ff8c49dd517b2c448b516f439d74b341, type: 3}
 --- !u!1001 &2979631978558453614
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28,7 +29,7 @@ PrefabInstance:
     - target: {fileID: 729667158556636099, guid: 0cde614cd354c3946b40eeffec5b4c4b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 104.6
       objectReference: {fileID: 0}
     - target: {fileID: 729667158556636099, guid: 0cde614cd354c3946b40eeffec5b4c4b,
         type: 3}
@@ -38,7 +39,7 @@ PrefabInstance:
     - target: {fileID: 729667158556636099, guid: 0cde614cd354c3946b40eeffec5b4c4b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 87.62492
       objectReference: {fileID: 0}
     - target: {fileID: 729667158556636099, guid: 0cde614cd354c3946b40eeffec5b4c4b,
         type: 3}
