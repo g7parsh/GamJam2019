@@ -126,7 +126,7 @@ public class Gun : MonoBehaviour
         {
             endpoint = MuzzleTransform.position + GunCamera.transform.forward * MaxDistance;
         }
-        BulletTrail.OnShot(endpoint);
+        BulletTrail.OnShot(endpoint, MuzzleTransform);
         ArmAnimator.SetTrigger("LethalFire");
     }
 

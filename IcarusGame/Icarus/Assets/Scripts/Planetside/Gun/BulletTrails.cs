@@ -21,21 +21,20 @@ public class BulletTrails : MonoBehaviour
         
     }
 
-    public void OnShot(Vector3 End)
+    public void OnShot(Vector3 End, Transform MuzzleTransform)
     {
         if (TrailLine == null)
         {
             Debug.Log("No line renderer assigned for bullet trail");
             return;
         }
-        Vector3 shotDir = End - transform.position;
-        Vector3 endPoint = transform.position + shotDir;
-        Vector3[] points = { transform.position,
-                Vector3.Lerp(transform.position, endPoint, 0.5f),
+        Vector3 shotDir = End - MuzzleTransform.position;
+        Vector3 endPoint = MuzzleTransform.position + shotDir;
+        Vector3[] points = { MuzzleTransform.position,
+                Vector3.Lerp(MuzzleTransform.position, endPoint, 0.5f),
                 endPoint };
         GameObject newTrail = Instantiate(TrailLine);
         LineRenderer lineRender = newTrail.GetComponent<LineRenderer>();
-        lineRender.transform.parent = this.transform;
         lineRender.SetPositions(points);
         lineRender.enabled = true;
         StartCoroutine("FadeOut", lineRender);
