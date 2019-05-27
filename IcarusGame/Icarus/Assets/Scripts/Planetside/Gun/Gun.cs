@@ -18,6 +18,8 @@ public class Gun : MonoBehaviour
     [SerializeField]
     private float MaxDistance = 1000.0f;
     [SerializeField]
+    private Transform MuzzleTransform = null;
+    [SerializeField]
     private Animator ArmAnimator = null;
     private BulletTrails BulletTrail;
 
@@ -79,11 +81,11 @@ public class Gun : MonoBehaviour
                 SpawnDebris(hit);
                 DecalManager.OnShotHit(hit);
             }
-            endpoint = transform.position + (hit.point - transform.position).normalized * Mathf.Min(hit.distance, MaxDistance);
+            endpoint = MuzzleTransform.position + (hit.point - MuzzleTransform.position).normalized * Mathf.Min(hit.distance, MaxDistance);
         }
         if (endpoint == Vector3.zero)
         {
-            endpoint = transform.position + transform.forward * MaxDistance;
+            endpoint = MuzzleTransform.position + GunCamera.transform.forward * MaxDistance;
         }
         BulletTrail.OnShot(endpoint);
         ArmAnimator.SetTrigger("LethalFire");
