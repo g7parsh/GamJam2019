@@ -34,7 +34,6 @@ public struct LerpVector3
 
     public void SetDesired(Vector3 direc)
     {
-        //desiredDirec = direc.normalized;
         desiredDirec = direc;
     }
 
@@ -76,6 +75,14 @@ public class GroundMovementMotor : MonoBehaviour
     private Ray sphercastRay;
 
     public LerpVector3 direc;
+    public float maxSprintBoostMod = 1.5f;
+    public float sprintBoostDecayRate = 0.5f;
+    public float sprintBoostCooldownTime = 1.0f;
+
+    [SerializeField]
+    private float currentSprintBoostMod;
+    private System.DateTime lastSprintBoostTime;
+
 
     [Header("Character Movement States")]
     public BaseCharacterState groundedState;
@@ -84,7 +91,9 @@ public class GroundMovementMotor : MonoBehaviour
 
     private HashSet<int> activeStates;
 
-    public float groundAlignmentSlop = 0.05f;
+    private StateWorldContext currentContext;
+
+    //public float groundAlignmentSlop = 0.05f;
 
     private void Awake()
     {
@@ -97,15 +106,10 @@ public class GroundMovementMotor : MonoBehaviour
 
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
+        currentSprintBoostMod = Mathf.MoveTowards(currentSprintBoostMod, 1.0f, sprintBoostDecayRate * Time.deltaTime);
+
         direc.Update();
 
         UpdateStateTransitions();
@@ -132,7 +136,8 @@ public class GroundMovementMotor : MonoBehaviour
     public void SetInputJumpBegin(float test)
     {
         if (activeStates.Contains(fallState.GetInstanceID())
-            || activeStates.Contains(jumpState.GetInstanceID()))
+            || activeStates.Contains(jumpState.GetInstanceID())
+            || currentContext.bIsInAir)
         {
             return;
         }
@@ -147,13 +152,24 @@ public class GroundMovementMotor : MonoBehaviour
     {
     }
 
+    public void SetInputPushSkates(float val)
+    {
+        System.DateTime currentTimeStamp = System.DateTime.Now;
+
+        if (currentContext.bIsInAir
+            || ((float)(currentTimeStamp - lastSprintBoostTime).Seconds) < sprintBoostCooldownTime)
+        {
+            return;
+        }
+
+        currentSprintBoostMod = maxSprintBoostMod;
+        lastSprintBoostTime = currentTimeStamp;
+    }
+
     private bool CheckIsGrounded(out RaycastHit hitInfo)
     {
         sphercastRay.origin = physCollider.bounds.center;
         return Physics.SphereCast(sphercastRay, physCollider.radius, out hitInfo, physCollider.height / 2.0f);
-        //return Physics.SphereCast(physCollider.bounds.center, physCollider.bounds.extents, physCollider.bounds.)
-
-        return Physics.Raycast(transform.position + Vector3.up, Vector3.down, 1.05f);
     }
 
     private void UpdateStateTransitions()
@@ -174,8 +190,6 @@ public class GroundMovementMotor : MonoBehaviour
         };
 
 
-        StateWorldContext currentContext;
-
         RaycastHit floorHitInfo;
         currentContext.bIsInAir = !CheckIsGrounded(out floorHitInfo);
 
@@ -184,120 +198,27 @@ public class GroundMovementMotor : MonoBehaviour
 
         EvaluateStateValidity(groundedState, currentContext);
         EvaluateStateValidity(jumpState, currentContext);
-
-        /*if (EvaluateStateValidity(jumpState, currentContext))
-        {
-        }
-        else
-        {
-            EvaluateStateValidity(fallState, currentContext);
-        }
-        */
-        // figure out if we should be jumping or not
-        /*if (bIsInAir)
-        {
-            //not jumping
-            if (!activeStates.Contains(jumpState.GetInstanceID()))
-            {
-                activeStates.Add(fallState.GetInstanceID());
-            }
-
-            //rigBod.useGravity = false;
-        }
-        else
-        {
-            activeStates.Remove(fallState.GetInstanceID());
-
-            //rigBod.useGravity = true;
-
-            Quaternion floorSlopeDeltaRot = Quaternion.FromToRotation(Vector3.up, floorHitInfo.normal);
-
-            movementDelta = floorSlopeDeltaRot * movementDelta;
-        }*/
     }
 
     private void UpdateMovement_Fixed()
     {
-        // HANDLE STATE TRANSITIONS
-
-        /*
-        RaycastHit floorHitInfo;
-        bool bIsInAir = !CheckIsGrounded(out floorHitInfo);
-        */
-
-
-        // TODO: this ain't gonna work, we need propery slope detection and slope following
-        // probably want to do here, make generic so we don't rely on specific states to implement their own logic
-
-
-
-        // account for slopes causing negligable perturbations in height
-        /*float distanceFormCollisionBottom = (physCollider.height / 4.0f) - floorHitInfo.distance;
-        if (distanceFormCollisionBottom >= groundAlignmentSlop)
-        {
-            Vector3 adjustedPos = rigBod.position;
-            adjustedPos.y -= distanceFormCollisionBottom;
-            rigBod.MovePosition(adjustedPos);
-
-            bIsInAir = false;
-        }*/
-
-
-
-        Vector3 movementDelta = gameObject.transform.rotation * direc;
-
-        /*
-        // figure out if we should be jumping or not
-        if (bIsInAir)
-        {
-            //not jumping
-            if (!activeStates.Contains(jumpState.GetInstanceID()))
-            {
-                activeStates.Add(fallState.GetInstanceID());
-            }
-
-            //rigBod.useGravity = false;
-        }
-        else
-        {
-            activeStates.Remove(fallState.GetInstanceID());
-
-            //rigBod.useGravity = true;
-
-            Quaternion floorSlopeDeltaRot = Quaternion.FromToRotation(Vector3.up, floorHitInfo.normal);
-
-            movementDelta = floorSlopeDeltaRot * movementDelta;
-        }
-        */
-
         // UPDATE STATES
 
         MovementContext newMovementContext;
         newMovementContext.rigBod = rigBod;
-        newMovementContext.input = gameObject.transform.rotation * direc;
+        newMovementContext.input = (gameObject.transform.rotation * direc) * currentSprintBoostMod;
         newMovementContext.deltaTime = Time.fixedDeltaTime;
-
 
         System.Action<BaseCharacterState> ProcessState = state =>
         {
             if (activeStates.Contains(state.GetInstanceID()))
             {
                 BaseCharacterState.EStateContext stateContext = state.CalculateMovement(newMovementContext);
-                //BaseCharacterState.EStateContext stateContext = state.CalculateMovement(ref movementDelta, Time.fixedDeltaTime);
-                /*if (stateContext == BaseCharacterState.EStateContext.Complete)
-                {
-                    activeStates.Remove(state.GetInstanceID());
-                }*/
             }
         };
 
         ProcessState(jumpState);
         ProcessState(groundedState);
         //ProcessState(fallState);
-
-        //movementDelta.y = rigBod.velocity.y;
-        
-
-        //rigBod.velocity = movementDelta;
     }
 }
