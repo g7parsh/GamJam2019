@@ -471,7 +471,7 @@ MonoBehaviour:
   GunCamera: {fileID: 4087898216829976824}
   MaxDistance: 10
   MuzzleTransform: {fileID: 4429564587625545480}
-  ArmAnimator: {fileID: 0}
+  ArmAnimator: {fileID: 3129707047102050881}
 --- !u!114 &2532930324286149616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1579,6 +1579,12 @@ PrefabInstance:
 --- !u!4 &7792971717918702148 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7834141878721531493, guid: 9adc32e5a4c6cd840a1017945465255a,
+    type: 3}
+  m_PrefabInstance: {fileID: 44548865747121185}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &3129707047102050881 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: 9adc32e5a4c6cd840a1017945465255a,
     type: 3}
   m_PrefabInstance: {fileID: 44548865747121185}
   m_PrefabAsset: {fileID: 0}

@@ -48,7 +48,7 @@ public class MiningResource : MonoBehaviour
     {
         if (other.gameObject.GetComponent<PlayerInventory>()!= null) {
             PlayerInventory inventory = other.gameObject.GetComponent<PlayerInventory>();
-            inventory.AjustResource(this, Quantity);
+            inventory.UpdateResource(this.resourceType, Quantity);
         }
     }
 }
