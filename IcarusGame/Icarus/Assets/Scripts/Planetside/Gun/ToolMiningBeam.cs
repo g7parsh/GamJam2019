@@ -24,7 +24,6 @@ public class ToolMiningBeam : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Line.material.mainTextureOffset = new Vector2(0.0f, Time.time);
         Line.SetPosition(0, SourceTransform.position);
         Line.SetPosition(Line.positionCount-1, DestTransform.position);
     }
