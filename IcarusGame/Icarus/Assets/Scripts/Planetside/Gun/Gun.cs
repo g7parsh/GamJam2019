@@ -11,12 +11,17 @@ public class Gun : MonoBehaviour
     private ParticleSystem Debris = null;
     [SerializeField]
     private float DebrisLifetime = 1.0f;
-
-    private DecalQueue DecalManager;
+    [SerializeField]
+    private DecalQueue DecalManager = null;
+    [SerializeField]
+    private Camera GunCamera = null;
+    [SerializeField]
+    private float MaxDistance = 1000.0f;
+    private BulletTrails BulletTrail;
     // Start is called before the first frame update
     private void Awake()
     {
-        DecalManager = GetComponentInChildren<DecalQueue>();
+        BulletTrail = GetComponent<BulletTrails>();
     }
 
     // Update is called once per frame
@@ -28,14 +33,21 @@ public class Gun : MonoBehaviour
     void Shoot()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, Mathf.Infinity))
+        Vector3 endpoint = Vector3.zero;
+        if (Physics.Raycast(GunCamera.transform.position, GunCamera.transform.forward, out hit, Mathf.Infinity))
         {
             if (DecalManager != null && hit.collider.gameObject.isStatic)
             {
                 SpawnDebris(hit);
                 DecalManager.OnShotHit(hit);
             }
+            endpoint = transform.position + (hit.point - transform.position).normalized * Mathf.Min(hit.distance, MaxDistance);
         }
+        if (endpoint == Vector3.zero)
+        {
+            endpoint = transform.position + transform.forward * MaxDistance;
+        }
+        BulletTrail.OnShot(endpoint);
     }
 
     void ProcessInput()
