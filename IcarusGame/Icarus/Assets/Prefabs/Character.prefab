@@ -470,6 +470,7 @@ MonoBehaviour:
   DecalManager: {fileID: 2971486058343530354}
   GunCamera: {fileID: 4087898216829976824}
   MaxDistance: 10
+  ArmAnimator: {fileID: 8931991180437428591}
 --- !u!114 &2532930324286149616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1158,6 +1159,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3c8c79ee69ef8c4d911fec6b181bb7c, type: 3}
+--- !u!95 &8931991180437428591 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: -6057140222963153312, guid: d3c8c79ee69ef8c4d911fec6b181bb7c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5765867187707846415}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1548901159982445589 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: d3c8c79ee69ef8c4d911fec6b181bb7c,

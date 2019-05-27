@@ -17,7 +17,12 @@ public class Gun : MonoBehaviour
     private Camera GunCamera = null;
     [SerializeField]
     private float MaxDistance = 1000.0f;
+    [SerializeField]
+    private Animator ArmAnimator = null;
     private BulletTrails BulletTrail;
+
+    private bool IsToolMode = false;
+    private bool IsToolFiring = false;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -28,6 +33,39 @@ public class Gun : MonoBehaviour
     void Update()
     {
         ProcessInput();
+    }
+
+    void ProcessInput()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            if (IsToolMode)
+            {
+                IsToolFiring = true;
+                ArmAnimator.SetBool("IsToolOn", IsToolFiring);
+            }
+            else
+            {
+                if (CanShoot)
+                {
+                    // shoot the gun
+                    Shoot();
+                    StartCoroutine("Cooldown");
+                }
+            }
+        }
+        if (Input.GetButtonUp("Fire1"))
+        {
+            if (IsToolMode)
+            {
+                IsToolFiring = false;
+                ArmAnimator.SetBool("IsToolOn", IsToolFiring);
+            }
+        }
+        if (Input.GetButtonDown("Fire2"))
+        {
+            SwitchTools();
+        }
     }
 
     void Shoot()
@@ -48,16 +86,7 @@ public class Gun : MonoBehaviour
             endpoint = transform.position + transform.forward * MaxDistance;
         }
         BulletTrail.OnShot(endpoint);
-    }
-
-    void ProcessInput()
-    {
-        if (Input.GetButtonDown("Fire1") && CanShoot)
-        {
-            // shoot the gun
-            Shoot();
-            StartCoroutine("Cooldown");
-        }
+        ArmAnimator.SetTrigger("LethalFire");
     }
 
     private void SpawnDebris(RaycastHit hit)
@@ -67,6 +96,12 @@ public class Gun : MonoBehaviour
             ParticleSystem newDebris = Instantiate<ParticleSystem>(Debris, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(newDebris.gameObject, DebrisLifetime);
         }
+    }
+
+    private void SwitchTools()
+    {
+        IsToolMode = !IsToolMode;
+        ArmAnimator.SetBool("IsToolMode", IsToolMode);
     }
 
     private IEnumerator Cooldown()
