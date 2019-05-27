@@ -12,4 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf61a26ba7c8fd34d812f7f459bdb1ab, type: 3}
   m_Name: TestGrounedState
   m_EditorClassIdentifier: 
+  movementInput: {x: 0, y: 0, z: 0}
   maxSpeed: 5
+  airSpeedDecayRate: 10
+  maxSprintBoostMod: 7
+  sprintBoostDecayRate: 7
+  sprintBoostCooldownTime: 0.4
+  currentSprintBoostMod: 1
+  increasedAirGravityAccel: 20

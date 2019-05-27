@@ -5,6 +5,7 @@ using UnityEngine;
 public struct StateWorldContext
 {
     public bool bIsInAir;
+    public bool bBoostRequested;
 }
 
 public struct MovementContext
@@ -62,7 +63,7 @@ public abstract class BaseCharacterState : ScriptableObject
         return true;
     }
 
-    public virtual EStateContext CalculateMovement(MovementContext movementContext)
+    public virtual EStateContext CalculateMovement(MovementContext movementContext, StateWorldContext worldContext)
     {
         return EStateContext.Complete;
     }
