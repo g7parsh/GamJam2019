@@ -410,7 +410,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4257005731456446833}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.3, z: 0.16}
+  m_LocalPosition: {x: 0, y: -0.223, z: 0.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5036414422044204859}
@@ -445,7 +445,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4445618394253296967}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.206, y: -0.173, z: 0.873}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1018588549621425329}
@@ -511,7 +511,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4821592506252866479}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0013, y: -0.0025, z: 0.00044}
+  m_LocalPosition: {x: 0.0013, y: -0.0025, z: 0.00064}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7792971717918702148}
@@ -1601,6 +1601,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3688675361582633810}
     m_Modifications:
+    - target: {fileID: 8408921246410786660, guid: 5a98f5d1e54cdad49b70e58f5d0e6a2a,
+        type: 3}
+      propertyPath: m_Name
+      value: BulletDecalManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408921246410786660, guid: 5a98f5d1e54cdad49b70e58f5d0e6a2a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 1280305926081243444, guid: 5a98f5d1e54cdad49b70e58f5d0e6a2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1655,16 +1665,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8408921246410786660, guid: 5a98f5d1e54cdad49b70e58f5d0e6a2a,
-        type: 3}
-      propertyPath: m_Name
-      value: BulletDecalManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 8408921246410786660, guid: 5a98f5d1e54cdad49b70e58f5d0e6a2a,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6862938218337493224, guid: 5a98f5d1e54cdad49b70e58f5d0e6a2a,
         type: 3}
