@@ -75,14 +75,7 @@ public class GroundMovementMotor : MonoBehaviour
     private Ray sphercastRay;
 
     public LerpVector3 direc;
-    public float maxSprintBoostMod = 1.5f;
-    public float sprintBoostDecayRate = 0.5f;
-    public float sprintBoostCooldownTime = 1.0f;
-
-    [SerializeField]
-    private float currentSprintBoostMod;
-    private System.DateTime lastSprintBoostTime;
-
+    
 
     [Header("Character Movement States")]
     public BaseCharacterState groundedState;
@@ -99,17 +92,15 @@ public class GroundMovementMotor : MonoBehaviour
     {
         activeStates = new HashSet<int>();
         activeStates.Add(groundedState.GetInstanceID());
+        groundedState.StartState();
 
         rigBod = GetComponent<Rigidbody>();
         physCollider = GetComponent<CapsuleCollider>();
         sphercastRay = new Ray(physCollider.bounds.center, Vector3.down);
-
     }
 
     void Update()
     {
-        currentSprintBoostMod = Mathf.MoveTowards(currentSprintBoostMod, 1.0f, sprintBoostDecayRate * Time.deltaTime);
-
         direc.Update();
 
         UpdateStateTransitions();
@@ -154,7 +145,9 @@ public class GroundMovementMotor : MonoBehaviour
 
     public void SetInputPushSkates(float val)
     {
-        System.DateTime currentTimeStamp = System.DateTime.Now;
+        currentContext.bBoostRequested = true;
+
+        /*System.DateTime currentTimeStamp = System.DateTime.Now;
 
         if (currentContext.bIsInAir
             || ((float)(currentTimeStamp - lastSprintBoostTime).Seconds) < sprintBoostCooldownTime)
@@ -163,7 +156,7 @@ public class GroundMovementMotor : MonoBehaviour
         }
 
         currentSprintBoostMod = maxSprintBoostMod;
-        lastSprintBoostTime = currentTimeStamp;
+        lastSprintBoostTime = currentTimeStamp;*/
     }
 
     private bool CheckIsGrounded(out RaycastHit hitInfo)
@@ -206,19 +199,21 @@ public class GroundMovementMotor : MonoBehaviour
 
         MovementContext newMovementContext;
         newMovementContext.rigBod = rigBod;
-        newMovementContext.input = (gameObject.transform.rotation * direc) * currentSprintBoostMod;
+        newMovementContext.input = (gameObject.transform.rotation * direc);
         newMovementContext.deltaTime = Time.fixedDeltaTime;
 
         System.Action<BaseCharacterState> ProcessState = state =>
         {
             if (activeStates.Contains(state.GetInstanceID()))
             {
-                BaseCharacterState.EStateContext stateContext = state.CalculateMovement(newMovementContext);
+                BaseCharacterState.EStateContext stateContext = state.CalculateMovement(newMovementContext, currentContext);
             }
         };
 
         ProcessState(jumpState);
         ProcessState(groundedState);
         //ProcessState(fallState);
+
+        currentContext.bBoostRequested = false;
     }
 }

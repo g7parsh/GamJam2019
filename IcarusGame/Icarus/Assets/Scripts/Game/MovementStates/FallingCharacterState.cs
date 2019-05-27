@@ -13,7 +13,7 @@ public class FallingCharacterState : BaseCharacterState
         return worldContext.bIsInAir;
     }
 
-    public override EStateContext CalculateMovement(MovementContext movementContext)
+    public override EStateContext CalculateMovement(MovementContext movementContext, StateWorldContext worldContext)
     {
         //velocity.y = -1.0f * terminalVelocity;
 
