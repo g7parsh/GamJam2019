@@ -21,7 +21,8 @@ public class Gun : MonoBehaviour
     private Transform MuzzleTransform = null;
     [SerializeField]
     private Animator ArmAnimator = null;
-    private BulletTrails BulletTrail;
+    private BulletTrails BulletTrail = null;
+    private Inventory PlayerInventory = null;
 
     private bool IsToolMode = false;
     private bool IsToolFiring = false;
@@ -29,12 +30,38 @@ public class Gun : MonoBehaviour
     private void Awake()
     {
         BulletTrail = GetComponent<BulletTrails>();
+        PlayerInventory = GetComponentInParent<Inventory>();
     }
 
     // Update is called once per frame
     void Update()
     {
         ProcessInput();
+    }
+
+    private void OnGUI()
+    {
+        GUI.Label(new Rect(20, 20, 200, 150), "IsToolFiring: " + IsToolFiring);
+    }
+
+    private void FixedUpdate()
+    {
+        if (IsToolMode && IsToolFiring)
+        {
+            RaycastHit hit;
+            if (HitSomething(out hit))
+            {
+                GameObject target = hit.collider.gameObject;
+                MiningResource miningResource = target.GetComponent<MiningResource>();
+                if (miningResource != null)
+                {
+                    IsToolFiring = true;
+                    return;
+                }
+            }
+        }
+
+        IsToolFiring = false;
     }
 
     void ProcessInput()
@@ -45,6 +72,17 @@ public class Gun : MonoBehaviour
             {
                 IsToolFiring = true;
                 ArmAnimator.SetBool("IsToolOn", IsToolFiring);
+                RaycastHit hit;
+                if (HitSomething(out hit))
+                {
+                    GameObject target = hit.collider.gameObject;
+                    MiningResource miningResource = target.GetComponent<MiningResource>();
+                    if (miningResource != null)
+                    {
+                        Inventory.RESOURCE resource = miningResource.resourceType;
+                        StartCoroutine("Harvest", resource);
+                    }
+                }
             }
             else
             {
@@ -74,7 +112,7 @@ public class Gun : MonoBehaviour
     {
         RaycastHit hit;
         Vector3 endpoint = Vector3.zero;
-        if (Physics.Raycast(GunCamera.transform.position, GunCamera.transform.forward, out hit, Mathf.Infinity))
+        if (HitSomething(out hit))
         {
             if (DecalManager != null && hit.collider.gameObject.isStatic)
             {
@@ -106,10 +144,31 @@ public class Gun : MonoBehaviour
         ArmAnimator.SetBool("IsToolMode", IsToolMode);
     }
 
+    private bool HitSomething(out RaycastHit hit)
+    {
+        return Physics.Raycast(GunCamera.transform.position, GunCamera.transform.forward, out hit, Mathf.Infinity);
+    }
+
     private IEnumerator Cooldown()
     {
         CanShoot = false;
         yield return new WaitForSeconds(ShootingInterval);
         CanShoot = true;
+    }
+    
+    private IEnumerator Harvest(Inventory.RESOURCE resource)
+    {
+        float timer = 0.0f;
+        while (IsToolMode && IsToolFiring)
+        {
+            timer += Time.deltaTime;
+            if (timer >= 1.0f)     // harvest every second
+            { 
+                PlayerInventory.UpdateResource(resource, 1);
+                timer -= 1.0f;
+                print("HARVESTING: " + resource.ToString());
+            }
+            yield return null;
+        }
     }
 }
