@@ -442,6 +442,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1970249724028344754}
   m_PrefabAsset: {fileID: 0}
+--- !u!218 &1331167264 stripped
+Terrain:
+  m_CorrespondingSourceObject: {fileID: 1970249724004122389, guid: 983816b12b9b8de45aa4422b904856b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1970249724028344754}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1496338195
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,6 +495,7 @@ MonoBehaviour:
   - {fileID: 1651904949}
   - {fileID: 856529297}
   - {fileID: 1917636343}
+  terrain: {fileID: 1331167264}
   numToSpawn: 100
 --- !u!114 &1651904949 stripped
 MonoBehaviour:

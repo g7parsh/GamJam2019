@@ -35,9 +35,9 @@ public class ResourceSpawner : MonoBehaviour
         {
             int resourceAmount = Random.Range(10, 100);
             Inventory.RESOURCE type = (Inventory.RESOURCE)Random.Range(0, 2);
+            MiningResource temp;
             if (resourceAmount > 66)
             {
-            MiningResource temp;
                 temp = resources[2];
                 temp.Quantity = resourceAmount;
                 temp.resourceType = type;
@@ -45,7 +45,6 @@ public class ResourceSpawner : MonoBehaviour
             }
             else if (resourceAmount > 33)
             {
-                MiningResource temp;
 
                 temp = resources[1];
                 temp.resourceType = type;
@@ -55,7 +54,6 @@ public class ResourceSpawner : MonoBehaviour
             }
             else
             {
-                MiningResource temp;
 
                 temp = resources[0];
                 temp.resourceType = type;
@@ -75,9 +73,9 @@ public class ResourceSpawner : MonoBehaviour
         // get the terrain height at the random position
         float posy = Terrain.activeTerrain.SampleHeight(new Vector3(posx, 0, posz));
         // create new gameObject on random position
-        
 
-        return new Vector3(posx,posy,posz);
+
+        return new Vector3(posx, posy, posz);
     }
 
     // Update is called once per frame
