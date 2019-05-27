@@ -15,6 +15,7 @@ public class ResourceSpawner : MonoBehaviour
 
     [Range(10, 100)]
     public int numToSpawn = 100;
+    public int maxResourceAmount = 120;
     private int terrainWidth;
     private int terrainLength;
     private int terrainPosX;
@@ -33,7 +34,7 @@ public class ResourceSpawner : MonoBehaviour
 
         for (int i = 0; i <= numToSpawn; i++)
         {
-            int resourceAmount = Random.Range(10, 100);
+            int resourceAmount = Random.Range(10, maxResourceAmount+1);
             Inventory.RESOURCE type = (Inventory.RESOURCE)Random.Range(0, 3);
             MiningResource temp;
             if (resourceAmount > 66)
