@@ -83,6 +83,7 @@ public class Gun : MonoBehaviour
             }
             endpoint = MuzzleTransform.position + (hit.point - MuzzleTransform.position).normalized * Mathf.Min(hit.distance, MaxDistance);
         }
+
         if (endpoint == Vector3.zero)
         {
             endpoint = MuzzleTransform.position + GunCamera.transform.forward * MaxDistance;
