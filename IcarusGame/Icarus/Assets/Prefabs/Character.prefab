@@ -469,7 +469,7 @@ MonoBehaviour:
   DebrisLifetime: 1
   DecalManager: {fileID: 2971486058343530354}
   GunCamera: {fileID: 4087898216829976824}
-  MaxDistance: 10
+  MaxDistance: 100
   MuzzleTransform: {fileID: 4429564587625545480}
   ArmAnimator: {fileID: 3129707047102050881}
 --- !u!114 &2532930324286149616
@@ -486,7 +486,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TrailLine: {fileID: 7015376669557415829, guid: 0dda7534689f4174882e731176839fac,
     type: 3}
-  Lifetime: 0.2
+  Lifetime: 0.1
 --- !u!1 &4821592506252866479
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,6 +21,8 @@ public class Gun : MonoBehaviour
     private Transform MuzzleTransform = null;
     [SerializeField]
     private Animator ArmAnimator = null;
+    [SerializeField]
+    private ParticleSystem MiningParticleSystem = null;
     private BulletTrails BulletTrail = null;
     private Inventory PlayerInventory = null;
 
@@ -60,8 +62,11 @@ public class Gun : MonoBehaviour
                 }
             }
         }
-
-        IsToolFiring = false;
+        if (IsToolFiring)
+        {
+            IsToolFiring = false;
+            ArmAnimator.SetBool("IsToolOn", IsToolFiring);
+        }
     }
 
     void ProcessInput()
