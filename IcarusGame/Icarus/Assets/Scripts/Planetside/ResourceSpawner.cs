@@ -34,7 +34,7 @@ public class ResourceSpawner : MonoBehaviour
         for (int i = 0; i <= numToSpawn; i++)
         {
             int resourceAmount = Random.Range(10, 100);
-            Inventory.RESOURCE type = (Inventory.RESOURCE)Random.Range(0, 2);
+            Inventory.RESOURCE type = (Inventory.RESOURCE)Random.Range(0, 3);
             MiningResource temp;
             if (resourceAmount > 66)
             {
