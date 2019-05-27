@@ -22,13 +22,12 @@ public class Gun : MonoBehaviour
     [SerializeField]
     private Animator ArmAnimator = null;
     [SerializeField]
-    private GameObject MiningBeam = null;
+    private ParticleSystem MiningParticleSystem = null;
     private BulletTrails BulletTrail = null;
     private Inventory PlayerInventory = null;
 
     private bool IsToolMode = false;
     private bool IsToolFiring = false;
-    private ToolMiningBeam ActiveMiningBeam = null;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -58,6 +57,7 @@ public class Gun : MonoBehaviour
                 MiningResource miningResource = target.GetComponent<MiningResource>();
                 if (miningResource != null)
                 {
+                    IsToolFiring = true;
                     return;
                 }
             }
@@ -84,16 +84,6 @@ public class Gun : MonoBehaviour
                     MiningResource miningResource = target.GetComponent<MiningResource>();
                     if (miningResource != null)
                     {
-                        if (MiningBeam != null)
-                        {
-                            GameObject Beam = Instantiate(MiningBeam);
-                            ToolMiningBeam BeamComponent = Beam.GetComponent<ToolMiningBeam>();
-                            if (BeamComponent != null)
-                            {
-                                BeamComponent.Initialize(MuzzleTransform, hit.transform);
-                                ActiveMiningBeam = BeamComponent;
-                            }
-                        }
                         Inventory.RESOURCE resource = miningResource.resourceType;
                         StartCoroutine("Harvest", resource);
                     }
@@ -175,7 +165,6 @@ public class Gun : MonoBehaviour
     private IEnumerator Harvest(Inventory.RESOURCE resource)
     {
         float timer = 0.0f;
-        
         while (IsToolMode && IsToolFiring)
         {
             timer += Time.deltaTime;
@@ -186,11 +175,6 @@ public class Gun : MonoBehaviour
                 print("HARVESTING: " + resource.ToString());
             }
             yield return null;
-        }
-        if (ActiveMiningBeam != null)
-        {
-            Destroy(ActiveMiningBeam.gameObject);
-            ActiveMiningBeam = null;
         }
     }
 }
