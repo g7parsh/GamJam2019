@@ -20,6 +20,9 @@ public class GroundedCharacterState : BaseCharacterState
     private float currentSprintBoostMod;
     private System.DateTime lastSprintBoostTime;
 
+
+    public float increasedAirGravityAccel = 20.0f;
+
     public override void ResetState()
     {
         lastSprintBoostTime = System.DateTime.Now;
@@ -57,6 +60,12 @@ public class GroundedCharacterState : BaseCharacterState
         newVel.y = 0.0f;
 
         movementContext.rigBod.AddForce(newVel, ForceMode.VelocityChange);
+
+        if (worldContext.bIsInAir)
+        {
+            movementContext.rigBod.AddForce(Vector3.down * increasedAirGravityAccel, ForceMode.Acceleration);
+        }
+
 
         return EStateContext.Running;
     }

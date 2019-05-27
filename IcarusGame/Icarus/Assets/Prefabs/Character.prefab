@@ -471,6 +471,7 @@ MonoBehaviour:
   GunCamera: {fileID: 4087898216829976824}
   MaxDistance: 10
   MuzzleTransform: {fileID: 4429564587625545480}
+  ArmAnimator: {fileID: 0}
 --- !u!114 &2532930324286149616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -879,10 +880,6 @@ MonoBehaviour:
     desiredDirec: {x: 0, y: 0, z: 0}
     realDirec: {x: 0, y: 0, z: 0}
     redirectSpeed: 0.05
-  maxSprintBoostMod: 7
-  sprintBoostDecayRate: 7
-  sprintBoostCooldownTime: 0.5
-  currentSprintBoostMod: 0
   groundedState: {fileID: 11400000, guid: 66de952272ea9d0419c7278d090e33f4, type: 2}
   fallState: {fileID: 11400000, guid: 263167e0a4e07204f944ea57e79da819, type: 2}
   jumpState: {fileID: 11400000, guid: 21fe5f5fd3ea3cc42b8c74163a1b4861, type: 2}
@@ -1598,16 +1595,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3688675361582633810}
     m_Modifications:
-    - target: {fileID: 8408921246410786660, guid: 5a98f5d1e54cdad49b70e58f5d0e6a2a,
-        type: 3}
-      propertyPath: m_Name
-      value: BulletDecalManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 8408921246410786660, guid: 5a98f5d1e54cdad49b70e58f5d0e6a2a,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 1280305926081243444, guid: 5a98f5d1e54cdad49b70e58f5d0e6a2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1662,6 +1649,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408921246410786660, guid: 5a98f5d1e54cdad49b70e58f5d0e6a2a,
+        type: 3}
+      propertyPath: m_Name
+      value: BulletDecalManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408921246410786660, guid: 5a98f5d1e54cdad49b70e58f5d0e6a2a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6862938218337493224, guid: 5a98f5d1e54cdad49b70e58f5d0e6a2a,
         type: 3}
