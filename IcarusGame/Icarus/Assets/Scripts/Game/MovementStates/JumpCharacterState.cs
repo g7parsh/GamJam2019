@@ -50,7 +50,7 @@ public class JumpCharacterState : BaseCharacterState
         return timeInState >= jumpArc.keys[jumpArc.length - 1].time;
     }
 
-    public override EStateContext CalculateMovement(MovementContext movementContext)
+    public override EStateContext CalculateMovement(MovementContext movementContext, StateWorldContext worldContext)
     {
         movementContext.rigBod.AddForce(Vector3.up * jupmImpulse, ForceMode.Impulse);
 
