@@ -13,9 +13,9 @@ public class FallingCharacterState : BaseCharacterState
         return worldContext.bIsInAir;
     }
 
-    public override EStateContext CalculateMovement(ref Vector3 velocity, float deltaTime)
+    public override EStateContext CalculateMovement(MovementContext movementContext)
     {
-        velocity.y = -1.0f * terminalVelocity;
+        //velocity.y = -1.0f * terminalVelocity;
 
         return EStateContext.Running;
     }

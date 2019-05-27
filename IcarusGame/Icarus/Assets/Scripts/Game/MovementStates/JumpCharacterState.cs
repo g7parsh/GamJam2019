@@ -9,6 +9,8 @@ public class JumpCharacterState : BaseCharacterState
     public float jumpHeightScale = 20.0f;
     public float jumpTime = 0.5f;
 
+    public float jupmImpulse = 20.0f;
+
     /*private float maxHeightTime = 0.0f;
     private const float scanningTimeStep = 0.05f;
 
@@ -27,6 +29,13 @@ public class JumpCharacterState : BaseCharacterState
         }
     }*/
 
+    bool bAppliedForce = false;
+
+    public override void ResetState()
+    {
+        bAppliedForce = false;
+    }
+
     public override bool StateIsValid(StateWorldContext worldContext)
     {
         /*if (!worldContext.bIsInAir)
@@ -34,13 +43,22 @@ public class JumpCharacterState : BaseCharacterState
             return false;
         }*/
 
+        return !bAppliedForce;
+
         float timeInState = GetTimeInState_Seconds();
 
         return timeInState >= jumpArc.keys[jumpArc.length - 1].time;
     }
 
-    public override EStateContext CalculateMovement(ref Vector3 velocity, float deltaTime)
+    public override EStateContext CalculateMovement(MovementContext movementContext)
     {
+        movementContext.rigBod.AddForce(Vector3.up * jupmImpulse, ForceMode.Impulse);
+
+        bAppliedForce = true;
+
+        return EStateContext.Complete;
+        /*
+
         float timeInState = GetTimeInState_Seconds();
 
         float oldPos = jumpArc.Evaluate(Mathf.Max((timeInState - deltaTime) / jumpTime, 0.0f));
@@ -50,11 +68,12 @@ public class JumpCharacterState : BaseCharacterState
             // This lets us drive the position by writing to the RigidBody's velocity
         float deltaHeight = ((newPos - oldPos) * jumpHeightScale) / deltaTime;
 
-        velocity.y += deltaHeight;
+        //velocity.y += deltaHeight;
 
         EStateContext retContext = timeInState >= jumpArc.keys[jumpArc.length - 1].time ? EStateContext.Complete : EStateContext.Running;
 
 
         return retContext;
+        */
     }
 }
