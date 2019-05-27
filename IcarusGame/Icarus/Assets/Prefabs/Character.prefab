@@ -514,6 +514,24 @@ MonoBehaviour:
             m_CallState: 2
         m_TypeName: UnityEvent_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
           PublicKeyToken=null
+    - axisName: Shift
+      sendChannel: 1
+      inputEvent:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 6884835308226746333}
+            m_MethodName: SetInputPushSkates
+            m_Mode: 0
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+        m_TypeName: UnityEvent_Float, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
 --- !u!114 &6884835308226746333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,10 +548,13 @@ MonoBehaviour:
     desiredDirec: {x: 0, y: 0, z: 0}
     realDirec: {x: 0, y: 0, z: 0}
     redirectSpeed: 0.05
+  maxSprintBoostMod: 7
+  sprintBoostDecayRate: 7
+  sprintBoostCooldownTime: 0.5
+  currentSprintBoostMod: 0
   groundedState: {fileID: 11400000, guid: 66de952272ea9d0419c7278d090e33f4, type: 2}
   fallState: {fileID: 11400000, guid: 263167e0a4e07204f944ea57e79da819, type: 2}
   jumpState: {fileID: 11400000, guid: 21fe5f5fd3ea3cc42b8c74163a1b4861, type: 2}
-  groundAlignmentSlop: 0.1
 --- !u!114 &2943953044914735233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -631,11 +652,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3688675361582633810}
     m_Modifications:
-    - target: {fileID: 8408921246410786660, guid: 5a98f5d1e54cdad49b70e58f5d0e6a2a,
-        type: 3}
-      propertyPath: m_Name
-      value: BulletDecalManager
-      objectReference: {fileID: 0}
     - target: {fileID: 1280305926081243444, guid: 5a98f5d1e54cdad49b70e58f5d0e6a2a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -690,6 +706,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8408921246410786660, guid: 5a98f5d1e54cdad49b70e58f5d0e6a2a,
+        type: 3}
+      propertyPath: m_Name
+      value: BulletDecalManager
       objectReference: {fileID: 0}
     - target: {fileID: 6862938218337493224, guid: 5a98f5d1e54cdad49b70e58f5d0e6a2a,
         type: 3}
