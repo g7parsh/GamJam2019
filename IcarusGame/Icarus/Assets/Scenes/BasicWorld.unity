@@ -424,67 +424,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94ba46f46e2c69b4dbf0c0e86c4cf0c5, type: 3}
---- !u!4 &921251289 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1970249724004122394, guid: 983816b12b9b8de45aa4422b904856b9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1970249724028344754}
-  m_PrefabAsset: {fileID: 0}
---- !u!218 &1331167264 stripped
-Terrain:
-  m_CorrespondingSourceObject: {fileID: 1970249724004122389, guid: 983816b12b9b8de45aa4422b904856b9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1970249724028344754}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1496338195
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1496338196}
-  - component: {fileID: 1496338197}
-  m_Layer: 0
-  m_Name: Resource Spawner
-  m_TagString: Untagged
-  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1496338196
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496338195}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 921251289}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1496338197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1496338195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18bd4b8a9ccaf964294da418bdf7315d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  resources:
-  - {fileID: 2158998871434804142, guid: 178e29a4e8dbe154dae34076e1605f9f, type: 3}
-  - {fileID: 7174841065031050324, guid: 5926e941ab5c5794b99503b897c87659, type: 3}
-  - {fileID: 5078578835629889120, guid: 94ba46f46e2c69b4dbf0c0e86c4cf0c5, type: 3}
-  terrain: {fileID: 1331167264}
-  numToSpawn: 100
 --- !u!1001 &1970249724028344754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -496,11 +435,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TestPlanet
-      objectReference: {fileID: 0}
-    - target: {fileID: 1970249724004122391, guid: 983816b12b9b8de45aa4422b904856b9,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967263
       objectReference: {fileID: 0}
     - target: {fileID: 1970249724004122394, guid: 983816b12b9b8de45aa4422b904856b9,
         type: 3}
